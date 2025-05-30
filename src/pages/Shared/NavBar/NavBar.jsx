@@ -1,53 +1,154 @@
+import * as React from "react";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Button,
+  Tooltip,
+  MenuItem,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { NavLink } from "react-router-dom";
+
 const NavBar = () => {
-  const NavOp = (
-    <>
-      <li><a>Home</a></li>
-      <li><a>All Books </a></li>
-      <li><a>About Us</a></li>
-      <li><a>Contact</a></li>
-    </>
-  );
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
+  const handleCloseNavMenu = () => setAnchorElNav(null);
+
+  const navLinks = [
+    { label: "Home", path: "/" },
+    { label: "ALL BOOKS", path: "/all-books" },
+    { label: "ABOUT US", path: "/about-us" },
+    { label: "CONTACT", path: "/contact" },
+  ];
 
   return (
-    <div className="navbar bg-base-100">
-      <div className="navbar-start">
-        {/* Mobile Dropdown */}
-        <div className="dropdown">
-          <label tabIndex={0} className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+
+          {/* Logo and Title */}
+          <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0, mr: 2 }}>
+            <img src="/open-book.png" alt="Book Icon" className="w-10" />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                ml: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+                display: { xs: "none", md: "flex" },
+              }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </label>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            {NavOp}
-          </ul>
-        </div>
-        <a className="btn btn-ghost text-xl">BookBarn</a>
-      </div>
+              BookBarn
+            </Typography>
+          </Box>
 
-      {/* Desktop Menu */}
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{NavOp}</ul>
-      </div>
+          {/* Mobile Menu Icon */}
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent: "flex-start" }}>
+            <IconButton
+              size="large"
+              aria-label="open navigation menu"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+              keepMounted
+              transformOrigin={{ vertical: "top", horizontal: "left" }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{ display: { xs: "block", md: "none" } }}
+            >
+              {navLinks.map(({ label, path }) => (
+                <MenuItem
+                  key={path}
+                  component={NavLink}
+                  to={path}
+                  onClick={handleCloseNavMenu}
+                  sx={{
+                    textAlign: "center",
+                    textDecoration: "none",
+                    color: "inherit",
+                    "&.active": {
+                      fontWeight: "bold",
+                      color: "#1976d2",
+                    },
+                  }}
+                >
+                  {label}
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
 
-      <div className="navbar-end">
-        <a className="btn">Sign In</a>
-      </div>
-    </div>
+          {/* Desktop Menu Buttons */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "center" }}>
+            {navLinks.map(({ label, path }) => (
+              <Button
+                key={path}
+                component={NavLink}
+                to={path}
+                onClick={handleCloseNavMenu}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  textDecoration: "none",
+                  "&.active": {
+                    fontWeight: "bold",
+                    borderBottom: "2px solid white",
+                  },
+                }}
+              >
+                {label}
+              </Button>
+            ))}
+          </Box>
+
+          {/* Auth Buttons */}
+          <Box className="flex space-x-2">
+            <Tooltip title="Sign Up">
+              <Button variant="outlined" className="text-white" color="inherit">
+                Sign up
+              </Button>
+            </Tooltip>
+            <Tooltip title="Login">
+              <Button
+                variant="outlined"
+                sx={{
+                  backgroundColor: "white",
+                  color: "#1876D1",
+                  borderColor: "#1876D1",
+                  "&:hover": {
+                    backgroundColor: "#e6f0ff",
+                    borderColor: "#1876D1",
+                  },
+                }}
+              >
+                Login
+              </Button>
+            </Tooltip>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 
