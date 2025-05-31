@@ -1,142 +1,142 @@
 [
   {
     "title": "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow",
-    "author": "Aurélien Géron",
+    "author": "Aur\u00e9lien G\u00e9ron",
     "course": "Machine Learning",
     "condition": "used",
-    "image": "https://img.drz.lazcdn.com/g/kf/S1729d9046ca447e6b41706b3c9b7ba8bq.jpg_720x720q80.jpg"
+    "image": "https://img.drz.lazcdn.com/g/kf/S1729d9046ca447e6b41706b3c9b7ba8bq.jpg_720x720q80.jpg",
+    "id": 1,
+    "price": 30.4,
+    "quantity": 2,
+    "orderCount": 80,
+    "sellerName": "Diana",
+    "location": "Boston",
+    "bookDescription": "A detailed and insightful resource for students in Machine Learning."
   },
   {
     "title": "Deep Learning",
     "author": "Ian Goodfellow, Yoshua Bengio, Aaron Courville",
     "course": "Deep Learning",
     "condition": "new",
-    "image": "https://img.drz.lazcdn.com/g/kf/Sd4e486131dc9413fb7a222492fb68a34M.jpg_720x720q80.jpg"
+    "image": "https://img.drz.lazcdn.com/g/kf/Sd4e486131dc9413fb7a222492fb68a34M.jpg_720x720q80.jpg",
+    "id": 2,
+    "price": 45.74,
+    "quantity": 6,
+    "orderCount": 2,
+    "sellerName": "Alice",
+    "location": "Boston",
+    "bookDescription": "A detailed and insightful resource for students in Deep Learning."
   },
   {
     "title": "Pattern Recognition and Machine Learning",
     "author": "Christopher M. Bishop",
     "course": "Machine Learning",
     "condition": "used",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpT39kqhznQkxpaeWpnU6Na3yutXP8EpF-Tw&s"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpT39kqhznQkxpaeWpnU6Na3yutXP8EpF-Tw&s",
+    "id": 3,
+    "price": 59.23,
+    "quantity": 3,
+    "orderCount": 41,
+    "sellerName": "Bob",
+    "location": "New York",
+    "bookDescription": "A detailed and insightful resource for students in Machine Learning."
   },
   {
     "title": "Python Machine Learning",
     "author": "Sebastian Raschka, Vahid Mirjalili",
     "course": "Machine Learning",
     "condition": "new",
-    "image": "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/Python_Machine_Learning_-Sebastian_Raschka_-97298-436992.jpg"
+    "image": "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/Python_Machine_Learning_-Sebastian_Raschka_-97298-436992.jpg",
+    "id": 4,
+    "price": 30.82,
+    "quantity": 9,
+    "orderCount": 66,
+    "sellerName": "Bob",
+    "location": "New York",
+    "bookDescription": "A detailed and insightful resource for students in Machine Learning."
   },
   {
     "title": "The Elements of Statistical Learning",
     "author": "Trevor Hastie, Robert Tibshirani, Jerome Friedman",
     "course": "Statistics",
     "condition": "used",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYE_yPQXcFcgj7eH0ObI7U8jQU3qujf07rNA&s"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYE_yPQXcFcgj7eH0ObI7U8jQU3qujf07rNA&s",
+    "id": 5,
+    "price": 27.66,
+    "quantity": 7,
+    "orderCount": 80,
+    "sellerName": "Charlie",
+    "location": "San Francisco",
+    "bookDescription": "A detailed and insightful resource for students in Statistics."
   },
   {
     "title": "Machine Learning Yearning",
     "author": "Andrew Ng",
     "course": "AI",
     "condition": "new",
-    "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1480798569i/30741739.jpg"
+    "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1480798569i/30741739.jpg",
+    "id": 6,
+    "price": 17.45,
+    "quantity": 3,
+    "orderCount": 46,
+    "sellerName": "Charlie",
+    "location": "San Francisco",
+    "bookDescription": "A detailed and insightful resource for students in AI."
   },
   {
     "title": "Grokking Deep Learning",
     "author": "Andrew Trask",
     "course": "Deep Learning",
     "condition": "used",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1TJ02M3cQ4lvoIx5ULqCkBJuCEiTeVT-qUA&s"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1TJ02M3cQ4lvoIx5ULqCkBJuCEiTeVT-qUA&s",
+    "id": 7,
+    "price": 14.32,
+    "quantity": 6,
+    "orderCount": 63,
+    "sellerName": "Eve",
+    "location": "San Francisco",
+    "bookDescription": "A detailed and insightful resource for students in Deep Learning."
   },
   {
     "title": "Reinforcement Learning: An Introduction",
     "author": "Richard S. Sutton, Andrew G. Barto",
     "course": "Reinforcement Learning",
     "condition": "new",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF5Xu2v5q3y0pCMFRW5XvTFlMoEUrxR8eJ9g&s"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF5Xu2v5q3y0pCMFRW5XvTFlMoEUrxR8eJ9g&s",
+    "id": 8,
+    "price": 35.77,
+    "quantity": 1,
+    "orderCount": 5,
+    "sellerName": "Bob",
+    "location": "Austin",
+    "bookDescription": "A detailed and insightful resource for students in Reinforcement Learning."
   },
   {
     "title": "Introduction to Statistical Learning",
     "author": "Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani",
     "course": "Statistics",
     "condition": "new",
-    "image": "https://images.squarespace-cdn.com/content/v1/5ff2adbe3fe4fe33db902812/1611294680091-25SIDM9AHA8ECIFFST23/Screen+Shot+2021-01-21+at+11.02.06+AM.png"
+    "image": "https://images.squarespace-cdn.com/content/v1/5ff2adbe3fe4fe33db902812/1611294680091-25SIDM9AHA8ECIFFST23/Screen+Shot+2021-01-21+at+11.02.06+AM.png",
+    "id": 9,
+    "price": 16.86,
+    "quantity": 9,
+    "orderCount": 26,
+    "sellerName": "Diana",
+    "location": "New York",
+    "bookDescription": "A detailed and insightful resource for students in Statistics."
   },
   {
     "title": "Bayesian Reasoning and Machine Learning",
     "author": "David Barber",
     "course": "Machine Learning",
     "condition": "used",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuRLnb04AsnmmB37fC7cLlXdxj5wWobQ9x7Q&s"
-  },
-  {
-    "title": "Artificial Intelligence: A Modern Approach",
-    "author": "Stuart Russell, Peter Norvig",
-    "course": "AI",
-    "condition": "new",
-    "image": "https://m.media-amazon.com/images/I/81H9lRjd0vL._SL1500_.jpg"
-  },
-  {
-    "title": "Machine Learning: A Probabilistic Perspective",
-    "author": "Kevin P. Murphy",
-    "course": "Machine Learning",
-    "condition": "used",
-    "image": "https://m.media-amazon.com/images/I/61teoUfX0UL._SL1500_.jpg"
-  },
-  {
-    "title": "Speech and Language Processing",
-    "author": "Daniel Jurafsky, James H. Martin",
-    "course": "NLP",
-    "condition": "new",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5R25ttQzWUPjB_bR0Uo9HwPW2ilakE9fRyw&s"
-  },
-  {
-    "title": "Computer Vision: Algorithms and Applications",
-    "author": "Richard Szeliski",
-    "course": "Computer Vision",
-    "condition": "used",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsmKRu9SmHGB_1goyn3exhK2pv2LJ3WK_6Pw&s"
-  },
-  {
-    "title": "Natural Language Processing with Transformers",
-    "author": "Lewis Tunstall, Leandro von Werra, Thomas Wolf",
-    "course": "NLP",
-    "condition": "new",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvQeHaETN_vo3FJeqjGiNB2BiYW_Bnys8pSA&s"
-  },
-  {
-    "title": "Data Science from Scratch",
-    "author": "Joel Grus",
-    "course": "Data Science",
-    "condition": "used",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBECb6YA2mA-Yj4dKZGrxjMPIUcjqQMtJ3ug&s"
-  },
-  {
-    "title": "Fundamentals of Machine Learning for Predictive Data Analytics",
-    "author": "John D. Kelleher, Brian Mac Namee, Aoife D'Arcy",
-    "course": "Machine Learning",
-    "condition": "new",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxBvB8kj_jKiB79CszClEVNXWl3edQAC_nrQ&s"
-  },
-  {
-    "title": "Machine Learning for Absolute Beginners",
-    "author": "Oliver Theobald",
-    "course": "Intro to ML",
-    "condition": "used",
-    "image": "https://bd-live-21.slatic.net/kf/Sd7ee325e2ceb4ccebaa6ed30383019a6k.jpg"
-  },
-  {
-    "title": "Data Science for Business",
-    "author": "Foster Provost, Tom Fawcett",
-    "course": "Data Science",
-    "condition": "new",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkq_CTOfKuID_UjfPtksrhF0fMMSeeye1nQ&s"
-  },
-  {
-    "title": "Practical Deep Learning for Cloud, Mobile, and Edge",
-    "author": "Anirudh Koul, Siddha Ganju, Meher Kasam",
-    "course": "Deep Learning",
-    "condition": "used",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrhk072zhrf5m9OVDsSW-tXlBac1MBhS0Fvg&s"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuRLnb04AsnmmB37fC7cLlXdxj5wWobQ9x7Q&s",
+    "id": 10,
+    "price": 10.26,
+    "quantity": 2,
+    "orderCount": 14,
+    "sellerName": "Charlie",
+    "location": "Chicago",
+    "bookDescription": "A detailed and insightful resource for students in Machine Learning."
   }
 ]

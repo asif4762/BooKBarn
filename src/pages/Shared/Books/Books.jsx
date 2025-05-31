@@ -1,67 +1,67 @@
-import React, { useEffect, useState } from 'react';
-import BookCard from './BookCard';
+import React, { useEffect, useState } from "react";
+import BookSearchBar from "./BookSearchBar";
+import BookCard from "./BookCard";
+// import books from "../../../../public/book_data_large.json";
+import { Grid, Container, Pagination, Box } from "@mui/material";
 
 const Books = () => {
-  const [books, setBooks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 9;
-
+  const [books,setBooks] = useState([]);
   useEffect(() => {
-    fetch('/book_data_large.json')
-      .then(res => res.json())
-      .then(data => setBooks(data))
-      .catch(err => console.error('Error fetching books: ', err));
-  }, []);
+    fetch('http://localhost:5555/books')
+    .then(res => res.json())
+    .then(data => setBooks(data))
+  },[])
+  const filteredBooks = books.filter((book) =>
+    `${book.title} ${book.author} ${book.course}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
 
-  const indexOfLastBook = currentPage * booksPerPage;
-  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
 
-  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+  const startIndex = (currentPage - 1) * booksPerPage;
+  const currentBooks = filteredBooks.slice(startIndex, startIndex + booksPerPage);
 
-  const totalPages = Math.ceil(books.length / booksPerPage);
-
-  const goToPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {currentBooks.map((book, index) => (
-          <BookCard key={index} book={book} />
+    <Container sx={{ py: 4 }}>
+      <BookSearchBar
+        searchQuery={searchQuery}
+        setSearchQuery={(query) => {
+          setSearchQuery(query);
+          setCurrentPage(1); // Reset to first page on search
+        }}
+      />
+
+      <Grid container spacing={3} justifyContent="center">
+        {currentBooks.map((book, idx) => (
+          <Grid item key={idx}>
+            <BookCard book={book} />
+          </Grid>
         ))}
-      </div>
-      <div className="flex justify-center mt-4 space-x-2">
-        <button
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
+      </Grid>
 
-        {[...Array(totalPages)].map((_, idx) => {
-          const pageNum = idx + 1;
-          return (
-            <button
-              key={pageNum}
-              onClick={() => goToPage(pageNum)}
-              className={`px-3 py-1 border rounded ${pageNum === currentPage ? 'bg-blue-500 text-white' : ''}`}
-            >
-              {pageNum}
-            </button>
-          );
-        })}
-
-        <button
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
-    </div>
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <Box display="flex" justifyContent="center" mt={4}>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+            shape="rounded"
+            size="large"
+          />
+        </Box>
+      )}
+    </Container>
   );
 };
 

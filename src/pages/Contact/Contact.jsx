@@ -1,76 +1,170 @@
 import React from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Link,
+  Stack,
+  Divider,
+} from "@mui/material";
+import { Helmet } from "react-helmet-async";
 
 const Contact = () => {
   return (
-    <section className="px-6 py-12 md:py-20 bg-gray-50 max-w-6xl mx-auto text-gray-800">
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-blue-700 mb-4">Get in Touch</h2>
-        <p className="text-lg text-gray-600">
-          We'd love to hear from you. Whether you have a question, feedback, or just want to say hello — our inbox is always open.
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-12">
-        {/* Contact Form */}
-        <form className="bg-white p-8 rounded-2xl shadow-md space-y-6">
-          <div>
-            <label className="block mb-2 font-medium">Name</label>
-            <input
-              type="text"
-              placeholder="Your full name"
-              className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-2 font-medium">Email</label>
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-2 font-medium">Message</label>
-            <textarea
-              rows="5"
-              placeholder="Write your message here..."
-              className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            ></textarea>
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition"
+    <Box
+      component="section"
+      sx={{
+        py: { xs: 8, md: 12 },
+        px: { xs: 3, md: 6 },
+        bgcolor: "#f9fafb",
+        color: "text.primary",
+        minHeight: "70vh",
+      }}
+    >
+      <Helmet><title>BookBarn | Contact</title></Helmet>
+      <Container maxWidth="lg">
+        <Box textAlign="center" mb={8}>
+          <Typography
+            variant="h3"
+            component="h2"
+            fontWeight="bold"
+            color="primary.main"
+            gutterBottom
           >
-            Send Message
-          </button>
-        </form>
+            Get in Touch
+          </Typography>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            maxWidth={600}
+            mx="auto"
+          >
+            We'd love to hear from you. Whether you have a question, feedback, or
+            just want to say hello — our inbox is always open.
+          </Typography>
+        </Box>
 
-        {/* Contact Info */}
-        <div className="flex flex-col justify-center">
-          <h3 className="text-2xl font-semibold text-blue-600 mb-4">Contact Information</h3>
-          <p className="mb-4 text-gray-700">
-            <strong>Email:</strong> support@bookbarn.com
-          </p>
-          <p className="mb-4 text-gray-700">
-            <strong>Phone:</strong> 01670415337
-          </p>
-          <p className="mb-4 text-gray-700">
-            <strong>Address:</strong> East Delta University
-          </p>
-          <div className="mt-6">
-            <h4 className="text-lg font-medium mb-2">Follow Us</h4>
-            <div className="flex space-x-4">
-              <a href="#" className="text-blue-600 hover:text-blue-800">Facebook</a>
-              <a href="#" className="text-blue-600 hover:text-blue-800">Instagram</a>
-              <a href="#" className="text-blue-600 hover:text-blue-800">Twitter</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        <Box
+          display="grid"
+          gridTemplateColumns={{ xs: "1fr", md: "1fr 1fr" }}
+          gap={6}
+          alignItems="start"
+        >
+          {/* Contact Form */}
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            sx={{
+              bgcolor: "background.paper",
+              p: 4,
+              borderRadius: 3,
+              boxShadow: 3,
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+            }}
+          >
+            <TextField
+              required
+              label="Name"
+              variant="outlined"
+              fullWidth
+              autoFocus
+            />
+            <TextField
+              required
+              label="Email"
+              type="email"
+              variant="outlined"
+              fullWidth
+            />
+            <TextField
+              required
+              label="Message"
+              multiline
+              rows={5}
+              variant="outlined"
+              fullWidth
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              sx={{ mt: 1, fontWeight: "bold" }}
+            >
+              Send Message
+            </Button>
+          </Box>
+
+          {/* Contact Info */}
+          <Box
+            sx={{
+              bgcolor: "background.paper",
+              p: 4,
+              borderRadius: 3,
+              boxShadow: 3,
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+            }}
+          >
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              color="primary.main"
+              gutterBottom
+            >
+              Contact Information
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Email:</strong> support@bookbarn.com
+            </Typography>
+            <Typography variant="body1">
+              <strong>Phone:</strong> 01670415337
+            </Typography>
+            <Typography variant="body1">
+              <strong>Address:</strong> East Delta University
+            </Typography>
+
+            <Divider sx={{ my: 2 }} />
+
+            <Typography variant="h6" fontWeight="medium" gutterBottom>
+              Follow Us
+            </Typography>
+            <Stack direction="row" spacing={3}>
+              <Link
+                href="#"
+                underline="hover"
+                color="primary"
+                sx={{ fontWeight: "medium" }}
+              >
+                Facebook
+              </Link>
+              <Link
+                href="#"
+                underline="hover"
+                color="primary"
+                sx={{ fontWeight: "medium" }}
+              >
+                Instagram
+              </Link>
+              <Link
+                href="#"
+                underline="hover"
+                color="primary"
+                sx={{ fontWeight: "medium" }}
+              >
+                Twitter
+              </Link>
+            </Stack>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
