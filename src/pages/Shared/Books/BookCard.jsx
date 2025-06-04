@@ -7,8 +7,24 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProviders";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const BookCard = ({ book, onAddToCart }) => {
+  const {user} = useContext(AuthContext)
+  const navigate = useNavigate()
+  const handleAddCart = () => {
+    if(user){
+      toast.success('Book added to cart successfully')
+      console.log(book,user.email)
+    }
+    else{
+      toast.error('Please login first')
+      navigate('/login')
+    }
+  }
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
@@ -96,10 +112,6 @@ const BookCard = ({ book, onAddToCart }) => {
           <Typography variant="body2" sx={{ color: "#10b981", fontWeight: 600 }}>
             ₹{book.price}
           </Typography>
-          <Typography variant="body2" sx={{ color: "#6b7280" }}>
-            In stock: {book.quantity}
-          </Typography>
-
           <Box mt={2}>
             <Button
               variant="contained"
@@ -114,7 +126,7 @@ const BookCard = ({ book, onAddToCart }) => {
                 fontWeight: 500,
                 borderRadius: 2,
               }}
-              onClick={() => onAddToCart && onAddToCart(book)}
+              onClick={handleAddCart}
             >
               Add to Cart
             </Button>

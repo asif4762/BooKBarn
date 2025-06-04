@@ -3,16 +3,14 @@ import {
   Button,
   Typography,
   Box,
-  Avatar,
   Paper,
+  Avatar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import { Typewriter } from "react-simple-typewriter";
 import { motion } from "framer-motion";
 import Rating from "@mui/material/Rating";
-import BookCard from "../Shared/Books/BookCard";
-// import books from "../../../public/book_data_large.json";
 import { Helmet } from "react-helmet-async";
 
 const Home = () => {
@@ -21,15 +19,15 @@ const Home = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5555/books')
-    .then((res) => res.json())
-    .then((data) => setBooks(data))
-  }, [])
+    fetch("http://localhost:5555/books")
+      .then((res) => res.json())
+      .then((data) => setBooks(data));
+  }, []);
 
   useEffect(() => {
-    fetch('http://localhost:5555/reviews')
-    .then((res) => res.json())
-    .then((data) => setReviews(data))
+    fetch("http://localhost:5555/reviews")
+      .then((res) => res.json())
+      .then((data) => setReviews(data));
   }, []);
 
   const handleExploreClick = () => {
@@ -77,7 +75,10 @@ const Home = () => {
         gap: 8,
       }}
     >
-      <Helmet><title>BookBarn</title></Helmet>
+      <Helmet>
+        <title>BookBarn</title>
+      </Helmet>
+
       <Box sx={{ maxWidth: 800, textAlign: "center" }}>
         <Typography
           variant="h2"
@@ -94,7 +95,7 @@ const Home = () => {
               "– your student buy and sell books!",
               "– buy books at a reasonable price!",
               "– discover great reads!",
-              "- sell books in best price"
+              "- sell books in best price",
             ]}
             loop={true}
             cursor
@@ -146,37 +147,36 @@ const Home = () => {
         </Typography>
 
         <Slider {...bookSliderSettings}>
-  {books.map((book, idx) => (
-    <Box
-      key={idx}
-      sx={{
-        px: 2,
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <Box
-        component="img"
-        src={book.image}
-        alt={book.title}
-        loading="lazy"
-        sx={{
-          height: 300,
-          width: 200,
-          borderRadius: 2,
-          objectFit: "cover",
-          boxShadow: 3,
-          transition: "transform 0.3s",
-          "&:hover": {
-            transform: "scale(1.05)",
-            boxShadow: 6,
-          },
-        }}
-      />
-    </Box>
-  ))}
-</Slider>
-
+          {books.map((book, idx) => (
+            <Box
+              key={idx}
+              sx={{
+                px: 2,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Box
+                component="img"
+                src={book.image}
+                alt={book.title}
+                loading="lazy"
+                sx={{
+                  height: 300,
+                  width: 200,
+                  borderRadius: 2,
+                  objectFit: "cover",
+                  boxShadow: 3,
+                  transition: "transform 0.3s",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: 6,
+                  },
+                }}
+              />
+            </Box>
+          ))}
+        </Slider>
       </Box>
 
       <Box sx={{ width: "100%", maxWidth: 900, mt: 10 }}>
@@ -204,26 +204,21 @@ const Home = () => {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
-                  borderRadius: 3,
+                  alignItems: "center",
+                  gap: 2,
+                  boxShadow: "0 4px 15px rgba(21, 101, 192, 0.4)",
+                  borderRadius: 2,
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                  <Avatar
-                    src={avatar}
-                    alt={name}
-                    sx={{ mr: 2, width: 56, height: 56 }}
-                  />
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                      {name}
-                    </Typography>
-                    <Rating value={rating || 4} readOnly size="small" />
-                  </Box>
-                </Box>
+                <Avatar src={avatar} alt={name} sx={{ width: 64, height: 64 }} />
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  {name}
+                </Typography>
+                <Rating value={rating} readOnly />
                 <Typography
                   variant="body1"
                   color="text.secondary"
-                  sx={{ fontStyle: "italic" }}
+                  sx={{ mt: 1, textAlign: "center" }}
                 >
                   "{text}"
                 </Typography>

@@ -1,182 +1,183 @@
-import React, { useState } from "react";
-import { Box, Container, Typography, TextField, Button, Link } from "@mui/material";
 import { Helmet } from "react-helmet-async";
-import { Radius } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Mail, Lock, User } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { AuthContext } from "../../Providers/AuthProviders";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+  const { createUser } = useContext(AuthContext);
+
+  const onSubmit = (data) => {
+    if (data.password !== data.confirmPassword) {
+      setError("confirmPassword", {
+        type: "manual",
+        message: "Passwords do not match",
+      });
       return;
     }
-    alert(`Signing up ${formData.name} with ${formData.email}`);
+
+    clearErrors("confirmPassword");
+
+    createUser(data.email, data.password)
+      .then((result) => {
+        toast.success("You created a new account successfully");
+        navigate("/"); // Redirect after signup
+      })
+      .catch((err) => {
+        toast.error("Signup failed. Please try again.");
+        console.error(err);
+      });
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        pt: "96px", // to avoid Navbar overlap if fixed
-        background: "linear-gradient(90deg, #667eea 0%, #764ba2 100%)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        px: 3,
-        py: 6,
-       borderRadius: 3,
-      }}
+    <div
+      className="min-h-screen pt-[96px] flex items-center justify-center px-4"
+      style={{ backgroundColor: "#e6e6e6" }} // slight ash/light gray background
     >
       <Helmet>
         <title>BookBarn | Sign Up</title>
       </Helmet>
 
-      <Container
-        maxWidth="sm"
-        sx={{
-          bgcolor: "rgba(255,255,255,0.85)",
-          borderRadius: "16px",
-          boxShadow: "0 4px 12px rgba(118, 75, 162, 0.3)",
-          backdropFilter: "blur(12px)",
-          p: 5,
-          fontFamily: "'Poppins', sans-serif",
-          color: "#4a3f35",
-        }}
+      <div
+        className="w-full max-w-xl rounded-2xl shadow-xl border border-white/30 p-8"
+        style={{ backgroundColor: "transparent" }}
       >
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          color="#764ba2"
-          mb={4}
-          textAlign="center"
-          sx={{ textShadow: "0 1px 4px rgba(0,0,0,0.1)" }}
+        <h2
+          className="text-3xl font-bold text-center mb-6 tracking-wide"
+          style={{ color: "#1e88e5" }}
         >
-          Create a BookBarn Account
-        </Typography>
+          Create Your BookBarn Account
+        </h2>
 
-        <Box component="form" onSubmit={handleSubmit} noValidate>
-          <TextField
-            label="Full Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            variant="outlined"
-            fullWidth
-            required
-            margin="normal"
-            autoComplete="name"
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "12px",
-              },
-            }}
-          />
-          <TextField
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            variant="outlined"
-            fullWidth
-            required
-            margin="normal"
-            autoComplete="email"
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "12px",
-              },
-            }}
-          />
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            variant="outlined"
-            fullWidth
-            required
-            margin="normal"
-            autoComplete="new-password"
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "12px",
-              },
-            }}
-          />
-          <TextField
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            variant="outlined"
-            fullWidth
-            required
-            margin="normal"
-            autoComplete="new-password"
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "12px",
-              },
-            }}
-          />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          {/* Name Field */}
+          <div className="relative">
+            <User
+              className="absolute left-3 top-1/2 transform -translate-y-1/2"
+              size={18}
+              style={{ color: "#1e88e5" }}
+            />
+            <input
+              type="text"
+              {...register("name", { required: "Full Name is required" })}
+              placeholder="Full Name"
+              className="pl-10 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ color: "#1e88e5" }}
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            )}
+          </div>
 
-          <Button
+          {/* Email Field */}
+          <div className="relative">
+            <Mail
+              className="absolute left-3 top-1/2 transform -translate-y-1/2"
+              size={18}
+              style={{ color: "#1e88e5" }}
+            />
+            <input
+              type="email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "Enter a valid email address",
+                },
+              })}
+              placeholder="Email Address"
+              className="pl-10 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ color: "#1e88e5" }}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            )}
+          </div>
+
+          {/* Password Field */}
+          <div className="relative">
+            <Lock
+              className="absolute left-3 top-1/2 transform -translate-y-1/2"
+              size={18}
+              style={{ color: "#1e88e5" }}
+            />
+            <input
+              type="password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
+              placeholder="Password"
+              className="pl-10 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ color: "#1e88e5" }}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            )}
+          </div>
+
+          {/* Confirm Password Field */}
+          <div className="relative">
+            <Lock
+              className="absolute left-3 top-1/2 transform -translate-y-1/2"
+              size={18}
+              style={{ color: "#1e88e5" }}
+            />
+            <input
+              type="password"
+              {...register("confirmPassword", {
+                required: "Please confirm your password",
+              })}
+              placeholder="Confirm Password"
+              className="pl-10 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ color: "#1e88e5" }}
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+          </div>
+
+          {/* Submit Button */}
+          <button
             type="submit"
-            variant="contained"
-            fullWidth
-            sx={{
-              mt: 4,
-              py: 1.5,
-              fontWeight: 700,
-              borderRadius: "20px",
-              background:
-                "linear-gradient(90deg, #667eea 0%, #764ba2 100%)",
-              boxShadow: "0 4px 12px rgba(118, 75, 162, 0.6)",
-              color: "white",
-              textTransform: "none",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                background:
-                  "linear-gradient(90deg, #764ba2 0%, #667eea 100%)",
-                boxShadow: "0 6px 16px rgba(118, 75, 162, 0.8)",
-              },
-            }}
+            className="w-full py-3 rounded-lg text-white font-semibold shadow-md transition"
+            style={{ backgroundColor: "#1e88e5" }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#1565c0")}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1e88e5")}
           >
             Sign Up
-          </Button>
-        </Box>
+          </button>
+        </form>
 
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          mt={3}
-          textAlign="center"
-        >
+        <p className="text-center text-sm mt-4" style={{ color: "#1e88e5" }}>
           Already have an account?{" "}
-          <Link
-            href="/login"
-            underline="hover"
-            sx={{ fontWeight: 600, color: "#764ba2" }}
+          <NavLink
+            to="/login"
+            className="hover:underline font-semibold"
+            style={{ color: "#1e88e5" }}
           >
             Login
-          </Link>
-        </Typography>
-      </Container>
-    </Box>
+          </NavLink>
+        </p>
+      </div>
+    </div>
   );
 };
 

@@ -9,6 +9,8 @@ import 'aos/dist/aos.css';
 
 import { router } from './Routes/router.jsx';
 import AOS from 'aos';
+import AuthProviders from './Providers/AuthProviders.jsx';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   useEffect(() => {
@@ -16,11 +18,14 @@ const App = () => {
   }, []);
 
   return (
-    <HelmetProvider>
-      <div className="max-w-screen-xl mx-auto">
+    <AuthProviders>
+      <HelmetProvider>
+      <div className="">
+        <Toaster/>
         <RouterProvider router={router} />
       </div>
     </HelmetProvider>
+    </AuthProviders>
   );
 };
 
