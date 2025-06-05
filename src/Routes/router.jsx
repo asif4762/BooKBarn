@@ -9,6 +9,9 @@ import SignUp from "../pages/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoutes";
 import Test from "../pages/Test/Test";
 import AddBooks from "../pages/AddBooks/AddBooks";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import DashboardLayout from "../DashboardLayout/DashboardLayout";
+import MyCart from "../DashboardLayout/MyCart";
 
 export const router = createBrowserRouter([
   {
@@ -32,21 +35,47 @@ export const router = createBrowserRouter([
         element: <Contact />,
       },
       {
-        path:'login',
-        element:<Login></Login>
+        path: "login",
+        element: <Login />,
       },
       {
-        path:'sign-up',
-        element:<SignUp></SignUp>
+        path: "sign-up",
+        element: <SignUp />,
       },
       {
-        path:'/test',
-        element:<PrivateRoute><Test></Test></PrivateRoute>
+        path: "test",
+        element: (
+          <PrivateRoute>
+            <Test />
+          </PrivateRoute>
+        ),
       },
       {
-        path:'/add-books',
-        element:<AddBooks></AddBooks>
-      }
+        path: "add-books",
+        element: <AddBooks />,
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true, // Default route at /dashboard
+        element: <MyCart />,
+      },
+      {
+        path: "cart", // relative path /dashboard/cart
+        element: <MyCart />,
+      },
     ],
   },
 ]);

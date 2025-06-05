@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProviders";
 import toast from "react-hot-toast";
+import axios from 'axios'
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const SignUp = () => {
 
   const { createUser } = useContext(AuthContext);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
         type: "manual",
@@ -30,15 +31,27 @@ const SignUp = () => {
 
     clearErrors("confirmPassword");
 
-    createUser(data.email, data.password)
-      .then((result) => {
-        toast.success("You created a new account successfully");
-        navigate("/"); // Redirect after signup
-      })
-      .catch((err) => {
-        toast.error("Signup failed. Please try again.");
-        console.error(err);
-      });
+    try{
+      const result = await createUser(data.email, data.password)
+      const savedUser = {
+        name: data.name,
+        email: data.email,
+        role:'user'
+      }
+      const response = await axios.post('http://localhost:8156/users',savedUser)
+      if(response.data.insertedId || response.data.acknowledged){
+        toast.success("You created a new account successfully")
+        navigate('/')
+      }
+      else{
+        toast.error("User not saved in database")
+      }
+    }
+    catch(error){
+      toast.error("Signup failed. Please try again.")
+      console.log(error)
+    }
+    
   };
 
   return (

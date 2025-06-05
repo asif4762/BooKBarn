@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { LogOut, UserCircle, LayoutDashboard, ShoppingCart } from "lucide-react";
 import {
   AppBar,
@@ -20,12 +20,27 @@ import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AuthContext } from "../../../Providers/AuthProviders";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { user, logOut } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user?.email) {
+      axios
+        .get(`http://localhost:8156/users/${user.email}`)
+        .then((res) => {
+          setIsAdmin(res.data?.role === "admin");
+        })
+        .catch((err) => {
+          console.error("Error fetching user data: ", err);
+        });
+    }
+  }, [user]);
 
   const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
@@ -45,18 +60,34 @@ const NavBar = () => {
       });
   };
 
-  const navLinks = [
-    { label: "Home", path: "/" },
-    { label: "All Books", path: "/all-books" },
-    { label: "Add Books", path: "/add-books" },
-    { label: "About Us", path: "/about-us" },
-    { label: "Contact", path: "/contact" },
-  ];
+  const navLinks = isAdmin
+    ? [
+        { label: "Home", path: "/" },
+        { label: "All Books", path: "/all-books" },
+        { label: "Add Books", path: "/add-books" },
+        { label: "About Us", path: "/about-us" },
+        { label: "Contact", path: "/contact" },
+      ]
+    : [
+        { label: "Home", path: "/" },
+        { label: "All Books", path: "/all-books" },
+        { label: "About Us", path: "/about-us" },
+        { label: "Contact", path: "/contact" },
+      ];
 
   const userMenuItems = [
-    { label: "Profile", path: "/dashboard/profile", icon: <UserCircle size={18} /> },
-    { label: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
-    { label: "My Cart", path: "/dashboard/cart", icon: <ShoppingCart size={18} /> },
+    {
+      label: "Dashboard",
+      icon: <LayoutDashboard fontSize="small" />,
+      path: "/dashboard",
+      show: true,
+    },
+    {
+      label: "Cart",
+      icon: <ShoppingCart fontSize="small" />,
+      path: "/cart",
+      show: !isAdmin,
+    },
   ];
 
   return (
@@ -67,10 +98,10 @@ const NavBar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "circOut" }}
       sx={{
-        background: "rgba(250, 246, 255, 0.95)", // pastel light purple background
+        background: "rgba(250, 246, 255, 0.95)",
         backdropFilter: "blur(8px)",
         borderRadius: "0 0 28px 28px",
-        boxShadow: "0 4px 18px rgba(139, 92, 246, 0.18)", // soft purple shadow
+        boxShadow: "0 4px 18px rgba(139, 92, 246, 0.18)",
         py: 1,
         borderBottom: "1.5px solid rgba(139, 92, 246, 0.25)",
         position: "relative",
@@ -247,148 +278,140 @@ const NavBar = () => {
             ))}
           </Box>
 
-          {/* User Profile Menu */}
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title={user ? user.displayName : "Login to continue"}>
-              <IconButton
-                onClick={handleOpenUserMenu}
-                sx={{
-                  p: 0,
-                  borderRadius: "16px",
-                  backgroundColor: "rgba(230, 230, 250, 0.85)",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    backgroundColor: "rgba(190, 180, 245, 1)",
-                    boxShadow: "0 0 14px rgba(139, 92, 246, 0.7)",
-                    transform: "scale(1.05)",
-                  },
-                }}
-                aria-controls={Boolean(anchorElUser) ? "user-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={Boolean(anchorElUser) ? "true" : undefined}
-              >
-                <Avatar
-                  alt={user ? user.displayName : "User Avatar"}
-                  src={user ? user.photoURL : ""}
+          {/* User Auth Buttons or Avatar */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            {!user ? (
+              <>
+                <Button
                   sx={{
-                    width: 38,
-                    height: 38,
-                    borderRadius: "16px",
-                    boxShadow: "0 0 8px rgba(139, 92, 246, 0.5)",
-                    bgcolor: "rgba(220, 215, 250, 0.8)",
-                    color: "rgba(139, 92, 246, 0.8)",
-                    fontWeight: "bold",
-                    fontSize: "1rem",
-                    textTransform: "uppercase",
-                    userSelect: "none",
+                    textTransform: "none",
+                    fontWeight: 600,
+                    color: "rgba(75, 62, 140, 0.85)",
+                    borderRadius: "14px",
+                    px: 3,
+                    py: 1,
+                    "&:hover": {
+                      color: "rgba(139, 92, 246, 1)",
+                      backgroundColor: "rgba(200, 195, 250, 0.4)",
+                    },
                   }}
                 >
-                  {!user && <UserCircle size={28} />}
-                </Avatar>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px", borderRadius: "20px" }}
-              id="user-menu"
-              anchorEl={anchorElUser}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-              PaperProps={{
-                sx: {
-                  borderRadius: "20px",
-                  backgroundColor: "rgba(250, 246, 255, 0.98)",
-                  border: "1.8px solid rgba(139, 92, 246, 0.35)",
-                  boxShadow: "0 10px 28px rgba(139, 92, 246, 0.16)",
-                  minWidth: 230,
-                  py: 1,
-                },
-              }}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-            >
-              {user ? (
-                <>
-                  {userMenuItems.map(({ label, path, icon }) => (
-                    <MenuItem
-                      key={path}
-                      component={NavLink}
-                      to={path}
-                      onClick={handleCloseUserMenu}
-                      sx={{
-                        py: 1.25,
-                        px: 3,
-                        borderRadius: "14px",
-                        color: "rgba(75, 62, 140, 0.9)",
-                        fontWeight: 600,
-                        "&:hover": {
-                          backgroundColor: "rgba(139, 92, 246, 0.2)",
-                          color: "rgba(139, 92, 246, 1)",
-                        },
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1.25,
-                      }}
+                  <NavLink to="login">LOGIN</NavLink>
+                </Button>
+                <Button
+                  sx={{
+                    textTransform: "none",
+                    fontWeight: 600,
+                    color: "rgba(139, 92, 246, 1)",
+                    borderRadius: "14px",
+                    px: 3,
+                    py: 1,
+                    backgroundColor: "rgba(200, 195, 250, 0.6)",
+                    "&:hover": {
+                      backgroundColor: "rgba(139, 92, 246, 1)",
+                      color: "#fff",
+                    },
+                  }}
+                >
+                  <NavLink to="sign-up">SIGN UP</NavLink>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Tooltip title={user.displayName || "User"}>
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0, borderRadius: "50%" }}
+                    aria-controls={Boolean(anchorElUser) ? "account-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={Boolean(anchorElUser) ? "true" : undefined}
+                  >
+                    <Avatar
+                      src={user.photoURL || ""}
+                      alt={user.displayName || "User"}
+                      sx={{ width: 40, height: 40, border: "2px solid rgba(139, 92, 246, 0.8)" }}
                     >
-                      <ListItemIcon sx={{ color: "inherit", minWidth: 30 }}>
-                        {icon}
-                      </ListItemIcon>
-                      <ListItemText>{label}</ListItemText>
-                    </MenuItem>
-                  ))}
+                      {!user.photoURL && <UserCircle size={28} />}
+                    </Avatar>
+                  </IconButton>
+                </Tooltip>
+
+                <Menu
+                  id="account-menu"
+                  anchorEl={anchorElUser}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                  PaperProps={{
+                    sx: {
+                      mt: 1.5,
+                      minWidth: 190,
+                      borderRadius: "20px",
+                      background: "rgba(255, 255, 255, 0.96)",
+                      border: "1.5px solid rgba(139, 92, 246, 0.35)",
+                      boxShadow: "0 10px 28px rgba(139, 92, 246, 0.16)",
+                    },
+                  }}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                >
+                  {userMenuItems
+                    .filter((item) => item.show)
+                    .map(({ label, path, icon }) => (
+                      <MenuItem
+                        key={path}
+                        component={NavLink}
+                        to={path}
+                        onClick={handleCloseUserMenu}
+                        sx={{
+                          borderRadius: "12px",
+                          transition: "all 0.3s ease",
+                          color: "rgba(75, 62, 140, 0.9)",
+                          "&.active": {
+                            fontWeight: "700",
+                            color: "rgba(139, 92, 246, 1)",
+                            background:
+                              "linear-gradient(90deg, rgba(139, 92, 246, 0.15) 0%, transparent 100%)",
+                            borderLeft: "4px solid rgba(139, 92, 246, 1)",
+                          },
+                          "&:hover": {
+                            backgroundColor: "rgba(139, 92, 246, 0.2)",
+                            color: "rgba(139, 92, 246, 1)",
+                          },
+                        }}
+                      >
+                        <ListItemIcon sx={{ color: "inherit" }}>{icon}</ListItemIcon>
+                        <ListItemText>{label}</ListItemText>
+                      </MenuItem>
+                    ))}
+
+                  {/* Only one logout here with red styling */}
                   <MenuItem
                     onClick={handleLogout}
                     sx={{
-                      py: 1.25,
-                      px: 3,
                       borderRadius: "14px",
-                      color: "rgba(180, 40, 40, 0.9)",
-                      fontWeight: 600,
+                      color: "#c53030",
+                      fontWeight: "600",
+                      mt: 1,
                       "&:hover": {
-                        backgroundColor: "rgba(230, 50, 50, 0.15)",
-                        color: "rgba(230, 40, 40, 1)",
+                        backgroundColor: "rgba(197, 46, 46, 0.15)",
+                        color: "#a02a2a",
                       },
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1.25,
                     }}
                   >
-                    <ListItemIcon sx={{ color: "inherit", minWidth: 30 }}>
-                      <LogOut size={18} />
+                    <ListItemIcon>
+                      <LogOut size={18} color="#c53030" />
                     </ListItemIcon>
-                    <ListItemText>Logout</ListItemText>
+                    Logout
                   </MenuItem>
-                </>
-              ) : (
-                <MenuItem
-                  component={NavLink}
-                  to="/login"
-                  onClick={handleCloseUserMenu}
-                  sx={{
-                    py: 1.25,
-                    px: 3,
-                    borderRadius: "14px",
-                    color: "rgba(75, 62, 140, 0.9)",
-                    fontWeight: 600,
-                    "&:hover": {
-                      backgroundColor: "rgba(139, 92, 246, 0.2)",
-                      color: "rgba(139, 92, 246, 1)",
-                    },
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1.25,
-                  }}
-                >
-                  <UserCircle size={18} />
-                  Login
-                </MenuItem>
-              )}
-            </Menu>
+                </Menu>
+              </>
+            )}
           </Box>
         </Toolbar>
       </Container>

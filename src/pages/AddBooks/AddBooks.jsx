@@ -15,8 +15,6 @@ const AddBook = () => {
 
   const onSubmit = (data) => {
     setLoading(true);
-
-    // Simulate async submission, replace with actual API call
     setTimeout(() => {
       setLoading(false);
       toast.success("Book added successfully!");

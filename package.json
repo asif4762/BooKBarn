@@ -20,6 +20,7 @@
     "@types/react-slick": "^0.23.13",
     "@types/slick-carousel": "^1.6.40",
     "aos": "^2.3.4",
+    "axios": "^1.9.0",
     "firebase": "^11.8.1",
     "framer-motion": "^12.15.0",
     "lucide-react": "^0.511.0",
