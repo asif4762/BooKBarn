@@ -36,7 +36,7 @@ const Books = () => {
         searchQuery={searchQuery}
         setSearchQuery={(query) => {
           setSearchQuery(query);
-          setCurrentPage(1); // Reset to first page on search
+          setCurrentPage(1); 
         }}
       />
 
