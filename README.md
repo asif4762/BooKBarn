@@ -1,12 +1,73 @@
-# React + Vite
+📚 BookBarn Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**BookBarn** is a modern, responsive front-end application built with React and Vite. It uses Material UI for design, Firebase for authentication or backend integration, and TailwindCSS for utility-first styling. Designed with performance, user experience, and scalability in mind.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🚀 Features
 
-## Expanding the ESLint configuration
+- ⚡ Built with **Vite** for blazing-fast development
+- 🎨 Uses **Material UI** with Emotion for styling
+- 🌈 Enhanced with **Tailwind CSS** and **DaisyUI**
+- 🔐 Firebase support
+- 📦 Component animations via **Framer Motion**
+- 🌍 SEO optimization with **React Helmet**
+- 📸 Carousel support using **React Slick**
+- 🔥 Toast notifications via **react-hot-toast**
+- 🔁 Form handling with **React Hook Form**
+- ✅ CAPTCHA support for security
+- ✨ AOS (Animate on Scroll) animations
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+🛠️ Tech Stack
+
+- **Framework**: React 19, Vite 6
+- **Styling**: Tailwind CSS, DaisyUI, MUI (Material UI)
+- **Routing**: React Router DOM v7
+- **Forms**: React Hook Form
+- **Animations**: AOS, Framer Motion
+- **Backend (Optional)**: Firebase
+- **Testing/Linting**: ESLint
+
+---
+
+📂 Project Structure
+
+
+---
+
+⚙️ Installation
+
+Make sure you have **Node.js (18+)** installed.
+
+bash
+git clone https://github.com/your-username/bookbarn-client.git
+cd bookbarn-client
+npm install
+
+🧪 Development
+npm run dev
+Open http://localhost:5173 in your browser.
+
+📦 Production Build
+npm run build
+To preview the production build:
+npm run preview
+
+🔍 Linting
+npm run lint
+
+📑 Scripts
+| Command           | Description                      |
+| ----------------- | -------------------------------- |
+| `npm run dev`     | Start development server         |
+| `npm run build`   | Build project for production     |
+| `npm run preview` | Preview the production build     |
+| `npm run lint`    | Run ESLint to check code quality |
+
+📜 License
+This project is private and intended for academic or personal use only.
+
+✍️ Author
+Made by Asif Zaman 
