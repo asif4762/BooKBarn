@@ -32,7 +32,7 @@ const NavBar = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:8156/users/${user.email}`)
+        .get(`http://localhost:8157/users/${user.email}`)
         .then((res) => {
           setIsAdmin(res.data?.role === "admin");
         })
@@ -98,30 +98,16 @@ const NavBar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "circOut" }}
       sx={{
-        background: "rgba(250, 246, 255, 0.95)",
-        backdropFilter: "blur(8px)",
-        borderRadius: "0 0 28px 28px",
-        boxShadow: "0 4px 18px rgba(139, 92, 246, 0.18)",
+        backgroundColor: "#0f172a",
+        backdropFilter: "blur(6px)",
+        borderRadius: "0 0 20px 20px",
+        boxShadow: "0 4px 12px rgba(148, 163, 184, 0.2)",
         py: 1,
-        borderBottom: "1.5px solid rgba(139, 92, 246, 0.25)",
-        position: "relative",
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: "5%",
-          right: "5%",
-          height: "3px",
-          background:
-            "linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent)",
-          opacity: 0.6,
-          borderRadius: "6px",
-        },
+        borderBottom: "1px solid #334155",
       }}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
-          {/* Logo and Title */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             <motion.img
               src="/open-book.png"
@@ -140,15 +126,14 @@ const NavBar = () => {
                 fontFamily: "'Orbitron', sans-serif",
                 fontWeight: 700,
                 letterSpacing: ".06rem",
-                color: "rgba(75, 62, 140, 0.95)",
+                color: "#e0e7ff",
                 textDecoration: "none",
                 fontSize: { xs: "1.3rem", md: "1.75rem" },
                 display: { xs: "none", md: "flex" },
-                textShadow: "0 0 8px rgba(139, 92, 246, 0.5)",
+                textShadow: "0 0 8px rgba(139, 92, 246, 0.4)",
                 transition: "all 0.3s ease",
                 "&:hover": {
-                  color: "rgba(139, 92, 246, 1)",
-                  textShadow: "0 0 14px rgba(139, 92, 246, 0.85)",
+                  color: "#c4b5fd",
                 },
               }}
             >
@@ -156,120 +141,28 @@ const NavBar = () => {
             </Typography>
           </Box>
 
-          {/* Mobile Menu Icon */}
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="navigation menu"
-              onClick={handleOpenNavMenu}
-              sx={{
-                color: "rgba(75, 62, 140, 0.8)",
-                backgroundColor: "rgba(200, 195, 250, 0.35)",
-                borderRadius: "16px",
-                transition: "all 0.3s ease",
-                "&:hover": {
-                  backgroundColor: "rgba(139, 92, 246, 0.35)",
-                  color: "rgba(139, 92, 246, 1)",
-                  transform: "rotate(10deg) scale(1.1)",
-                },
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorElNav}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-              transformOrigin={{ vertical: "top", horizontal: "left" }}
-              sx={{ display: { xs: "block", md: "none" } }}
-              PaperProps={{
-                sx: {
-                  mt: 1.5,
-                  borderRadius: "20px",
-                  background: "rgba(255, 255, 255, 0.96)",
-                  border: "1.5px solid rgba(139, 92, 246, 0.35)",
-                  boxShadow: "0 10px 28px rgba(139, 92, 246, 0.16)",
-                  minWidth: 230,
-                },
-              }}
-            >
-              {navLinks.map(({ label, path }) => (
-                <MenuItem
-                  key={path}
-                  component={NavLink}
-                  to={path}
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    color: "rgba(75, 62, 140, 0.9)",
-                    fontWeight: 600,
-                    py: 1.75,
-                    px: 3,
-                    fontSize: "1rem",
-                    transition: "all 0.25s ease-in-out",
-                    borderRadius: "10px",
-                    "&.active": {
-                      fontWeight: "700",
-                      color: "rgba(139, 92, 246, 1)",
-                      background:
-                        "linear-gradient(90deg, rgba(139, 92, 246, 0.15) 0%, transparent 100%)",
-                      borderLeft: "4px solid rgba(139, 92, 246, 1)",
-                    },
-                    "&:hover": {
-                      backgroundColor: "rgba(139, 92, 246, 0.2)",
-                      color: "rgba(139, 92, 246, 1)",
-                      transform: "translateX(7px)",
-                    },
-                  }}
-                >
-                  {label}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-
-          {/* Desktop Nav Links */}
-          <Box sx={{ display: { xs: "none", md: "flex" }, gap: { md: 1.5, lg: 3 } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
             {navLinks.map(({ label, path }) => (
               <Button
                 key={path}
                 component={NavLink}
                 to={path}
                 sx={{
-                  color: "rgba(75, 62, 140, 0.85)",
-                  fontWeight: 600,
+                  color: "#cbd5e1",
+                  fontWeight: 500,
                   textTransform: "none",
                   fontSize: "1rem",
-                  borderRadius: "14px",
-                  px: 3,
-                  py: 1.1,
-                  position: "relative",
-                  overflow: "hidden",
-                  transition: "all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1)",
-                  "&::after": {
-                    content: '""',
-                    position: "absolute",
-                    width: "0%",
-                    height: "3px",
-                    bottom: 6,
-                    left: 0,
-                    backgroundColor: "rgba(139, 92, 246, 0.85)",
-                    borderRadius: "6px",
-                    transition: "width 0.35s ease",
+                  px: 2.5,
+                  py: 1,
+                  borderRadius: "10px",
+                  "&.active": {
+                    color: "#a78bfa",
+                    fontWeight: 700,
+                    backgroundColor: "#1e293b",
                   },
                   "&:hover": {
-                    color: "rgba(139, 92, 246, 1)",
-                    backgroundColor: "rgba(200, 195, 250, 0.4)",
-                    "&::after": {
-                      width: "100%",
-                    },
-                  },
-                  "&.active": {
-                    color: "rgba(139, 92, 246, 1)",
-                    fontWeight: 700,
-                    "&::after": {
-                      width: "100%",
-                    },
+                    color: "#a78bfa",
+                    backgroundColor: "#1e293b",
                   },
                 }}
               >
@@ -278,86 +171,48 @@ const NavBar = () => {
             ))}
           </Box>
 
-          {/* User Auth Buttons or Avatar */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             {!user ? (
               <>
-                <Button
-                  sx={{
-                    textTransform: "none",
-                    fontWeight: 600,
-                    color: "rgba(75, 62, 140, 0.85)",
-                    borderRadius: "14px",
-                    px: 3,
-                    py: 1,
-                    "&:hover": {
-                      color: "rgba(139, 92, 246, 1)",
-                      backgroundColor: "rgba(200, 195, 250, 0.4)",
-                    },
-                  }}
-                >
-                  <NavLink to="login">LOGIN</NavLink>
+                <Button component={NavLink} to="/login" sx={{ color: "#cbd5e1", fontWeight: 600 }}>
+                  Login
                 </Button>
                 <Button
+                  component={NavLink}
+                  to="/sign-up"
                   sx={{
-                    textTransform: "none",
+                    color: "#0f172a",
+                    backgroundColor: "#a78bfa",
                     fontWeight: 600,
-                    color: "rgba(139, 92, 246, 1)",
-                    borderRadius: "14px",
-                    px: 3,
-                    py: 1,
-                    backgroundColor: "rgba(200, 195, 250, 0.6)",
+                    px: 2,
+                    borderRadius: "10px",
                     "&:hover": {
-                      backgroundColor: "rgba(139, 92, 246, 1)",
+                      backgroundColor: "#7c3aed",
                       color: "#fff",
                     },
                   }}
                 >
-                  <NavLink to="sign-up">SIGN UP</NavLink>
+                  Sign Up
                 </Button>
               </>
             ) : (
               <>
                 <Tooltip title={user.displayName || "User"}>
-                  <IconButton
-                    onClick={handleOpenUserMenu}
-                    sx={{ p: 0, borderRadius: "50%" }}
-                    aria-controls={Boolean(anchorElUser) ? "account-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={Boolean(anchorElUser) ? "true" : undefined}
-                  >
-                    <Avatar
-                      src={user.photoURL || ""}
-                      alt={user.displayName || "User"}
-                      sx={{ width: 40, height: 40, border: "2px solid rgba(139, 92, 246, 0.8)" }}
-                    >
+                  <IconButton onClick={handleOpenUserMenu}>
+                    <Avatar src={user.photoURL || ""} alt="User" sx={{ width: 40, height: 40 }}>
                       {!user.photoURL && <UserCircle size={28} />}
                     </Avatar>
                   </IconButton>
                 </Tooltip>
-
                 <Menu
-                  id="account-menu"
                   anchorEl={anchorElUser}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                   PaperProps={{
                     sx: {
-                      mt: 1.5,
-                      minWidth: 190,
-                      borderRadius: "20px",
-                      background: "rgba(255, 255, 255, 0.96)",
-                      border: "1.5px solid rgba(139, 92, 246, 0.35)",
-                      boxShadow: "0 10px 28px rgba(139, 92, 246, 0.16)",
+                      backgroundColor: "#1e293b",
+                      color: "#cbd5e1",
                     },
-                  }}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
                   }}
                 >
                   {userMenuItems
@@ -369,19 +224,13 @@ const NavBar = () => {
                         to={path}
                         onClick={handleCloseUserMenu}
                         sx={{
-                          borderRadius: "12px",
-                          transition: "all 0.3s ease",
-                          color: "rgba(75, 62, 140, 0.9)",
                           "&.active": {
-                            fontWeight: "700",
-                            color: "rgba(139, 92, 246, 1)",
-                            background:
-                              "linear-gradient(90deg, rgba(139, 92, 246, 0.15) 0%, transparent 100%)",
-                            borderLeft: "4px solid rgba(139, 92, 246, 1)",
+                            backgroundColor: "#334155",
+                            color: "#a78bfa",
                           },
                           "&:hover": {
-                            backgroundColor: "rgba(139, 92, 246, 0.2)",
-                            color: "rgba(139, 92, 246, 1)",
+                            backgroundColor: "#334155",
+                            color: "#a78bfa",
                           },
                         }}
                       >
@@ -389,23 +238,9 @@ const NavBar = () => {
                         <ListItemText>{label}</ListItemText>
                       </MenuItem>
                     ))}
-
-                  {/* Only one logout here with red styling */}
-                  <MenuItem
-                    onClick={handleLogout}
-                    sx={{
-                      borderRadius: "14px",
-                      color: "#c53030",
-                      fontWeight: "600",
-                      mt: 1,
-                      "&:hover": {
-                        backgroundColor: "rgba(197, 46, 46, 0.15)",
-                        color: "#a02a2a",
-                      },
-                    }}
-                  >
+                  <MenuItem onClick={handleLogout} sx={{ color: "#f87171" }}>
                     <ListItemIcon>
-                      <LogOut size={18} color="#c53030" />
+                      <LogOut size={18} color="#f87171" />
                     </ListItemIcon>
                     Logout
                   </MenuItem>

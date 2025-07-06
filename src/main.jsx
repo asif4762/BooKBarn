@@ -11,6 +11,8 @@ import { router } from './Routes/router.jsx';
 import AOS from 'aos';
 import AuthProviders from './Providers/AuthProviders.jsx';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '@emotion/react';
+import darkFancyTheme from './config/theme.js';
 
 const App = () => {
   useEffect(() => {
@@ -18,7 +20,8 @@ const App = () => {
   }, []);
 
   return (
-    <AuthProviders>
+    <ThemeProvider theme={darkFancyTheme}>
+      <AuthProviders>
       <HelmetProvider>
       <div className="">
         <Toaster/>
@@ -26,6 +29,7 @@ const App = () => {
       </div>
     </HelmetProvider>
     </AuthProviders>
+    </ThemeProvider>
   );
 };
 

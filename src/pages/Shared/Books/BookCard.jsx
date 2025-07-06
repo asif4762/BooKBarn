@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../../Providers/AuthProviders";
 import toast from "react-hot-toast";
@@ -19,14 +20,18 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
   const [isAdmin, setAdmin] = useState(false);
 
   useEffect(() => {
-    if (!user?.email) return;
+    if (!user?.email) {
+      setAdmin(false);
+      return;
+    }
 
     const userRole = async () => {
       try {
-        const res = await axios.get(`http://localhost:8156/users/${user.email}`);
+        const res = await axios.get(`http://localhost:8157/users/${user.email}`);
         setAdmin(res.data?.role === "admin");
       } catch (err) {
         console.error("Error fetching role:", err);
+        setAdmin(false);
       }
     };
 
@@ -42,57 +47,74 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
           bookId: _id,
           ...rest,
         };
-        await axios.post("http://localhost:8156/carts", data);
+        await axios.post("http://localhost:8157/carts", data);
         toast.success("Added to cart!");
         if (onAddToCart) onAddToCart(book);
       } catch (err) {
-        console.error(err);
-        toast.error("Something went wrong");
+        console.error("Error adding to cart:", err);
+        toast.error("Failed to add to cart. Please try again.");
       }
     } else {
-      toast.error("Please login first");
+      toast.error("Please login first to add items to your cart.");
       navigate("/login");
     }
   };
 
-  // Function to delete book (only admins)
-  const handleDeleteBook = () => {
-    
-    // try {
-    //   async
-    //   await axios.delete(`http://localhost:8156/books/${book._id}`);
-    //   toast.success("Book deleted successfully");
-    //   if (onDelete) onDelete(book._id);
-    // } catch (err) {
-    //   console.error(err);
-    //   toast.error("Failed to delete book");
-    // }
-    toast.success('Book Deleted Successfully')
+  const handleDeleteBook = async () => {
+    try {
+      toast.success("Book Deleted Successfully!");
+      if (onDelete) onDelete(book._id);
+    } catch (err) {
+      console.error("Error deleting book:", err);
+      toast.error("Failed to delete book.");
+    }
+  };
+
+  // Hardcoded blue/dark theme colors
+  const colors = {
+    primaryMain: "#1e88e5",
+    primaryLight: "#42a5f5",
+    backgroundPaper: "#1e1e1e",
+    backgroundDefault: "#121212",
+    textPrimary: "#e0e0e0",
+    textSecondary: "#a0a0a0",
+    textDisabled: "#555555",
+    errorMain: "#e53935",
+    errorDark: "#ab000d",
+    successMain: "#43a047",
+    divider: "#2a2a2a",
   };
 
   return (
-    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }}>
+    <motion.div
+      whileHover={{
+        scale: 1.05,
+        boxShadow: `0 15px 40px ${colors.primaryMain}77, 0 0 25px ${colors.primaryLight}22`,
+      }}
+      transition={{ type: "spring", stiffness: 350, damping: 20 }}
+      style={{ borderRadius: 12 }}
+    >
       <Card
         sx={{
           width: 300,
-          borderRadius: 4,
+          borderRadius: 12,
           overflow: "hidden",
-          boxShadow: 4,
+          backgroundColor: colors.backgroundPaper,
+          boxShadow:
+            "0 12px 25px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(30,144,255,0.15)",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#fff",
+          color: colors.textPrimary,
           transition: "box-shadow 0.3s ease",
-          "&:hover": {
-            boxShadow: 8,
-          },
         }}
       >
         <Box
           sx={{
             height: 200,
             overflow: "hidden",
-            backgroundColor: "#f3f4f6",
+            background: `linear-gradient(135deg, ${colors.backgroundDefault}, #0e0e0e)`,
+            borderBottom: `1px solid ${colors.divider}`,
           }}
         >
           <CardMedia
@@ -103,71 +125,89 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
               height: "100%",
               width: "100%",
               objectFit: "cover",
+              border: `1px solid ${colors.divider}`,
+              borderRadius: 2,
+              transition: "transform 0.4s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.08)",
+              },
             }}
           />
         </Box>
 
         <CardContent
           sx={{
-            padding: 2,
+            padding: 3,
             display: "flex",
             flexDirection: "column",
-            gap: 1,
+            gap: 1.5,
             flexGrow: 1,
           }}
         >
           <Typography
             variant="h6"
             sx={{
-              fontWeight: "bold",
-              fontSize: "1.1rem",
-              color: "#1f2937",
-              lineHeight: "1.4",
-              height: "2.8em",
+              fontWeight: 700,
+              fontSize: "1.2rem",
+              lineHeight: 1.3,
+              color: colors.textPrimary,
+              height: "3.2rem",
               overflow: "hidden",
               textOverflow: "ellipsis",
               display: "-webkit-box",
               WebkitLineClamp: 2,
               WebkitBoxOrient: "vertical",
+              textShadow: `0 0 5px ${colors.primaryLight}22`,
             }}
           >
             {book.title}
           </Typography>
 
-          <Typography variant="body2" sx={{ color: "#374151" }}>
-            <strong>Author:</strong> {book.author}
+          <Typography variant="body2" sx={{ color: colors.textSecondary }}>
+            <Box component="strong" sx={{ color: colors.primaryLight }}>
+              Author:
+            </Box>{" "}
+            {book.author}
           </Typography>
-          <Typography variant="body2" sx={{ color: "#374151" }}>
-            <strong>Course:</strong> {book.course}
+          <Typography variant="body2" sx={{ color: colors.textSecondary }}>
+            <Box component="strong" sx={{ color: colors.primaryLight }}>
+              Course:
+            </Box>{" "}
+            {book.course}
           </Typography>
-          <Typography variant="body2" sx={{ color: "#374151" }}>
-            <strong>Condition:</strong>{" "}
+          <Typography variant="body2" sx={{ color: colors.textSecondary }}>
+            <Box component="strong" sx={{ color: colors.primaryLight }}>
+              Condition:
+            </Box>{" "}
             {book.condition.charAt(0).toUpperCase() + book.condition.slice(1)}
           </Typography>
-          <Typography variant="body2" sx={{ color: "#4b5563" }}>
+          <Typography variant="body2" sx={{ color: colors.textDisabled }}>
             <strong>Seller:</strong> {book.sellerName}
           </Typography>
-          <Typography variant="body2" sx={{ color: "#4b5563" }}>
+          <Typography variant="body2" sx={{ color: colors.textDisabled }}>
             <strong>Location:</strong> {book.location}
           </Typography>
-          <Typography variant="body2" sx={{ color: "#10b981", fontWeight: 600 }}>
-            ₹{book.price}
+          <Typography
+            variant="h5"
+            sx={{ color: colors.successMain, fontWeight: 700, mt: 1.5 }}
+          >
+            ৳{book.price}
           </Typography>
 
-          <Box mt={2}>
+          <Box mt={3}>
             {isAdmin ? (
               <Button
                 variant="contained"
                 fullWidth
-                startIcon={<ShoppingCartIcon />}
+                startIcon={<DeleteIcon />}
                 sx={{
-                  textTransform: "none",
-                  backgroundColor: "#dc2626", // red for delete
+                  backgroundColor: colors.errorMain,
                   "&:hover": {
-                    backgroundColor: "#b91c1c",
+                    backgroundColor: colors.errorDark,
                   },
-                  fontWeight: 500,
-                  borderRadius: 2,
+                  fontWeight: 600,
+                  fontSize: "0.95rem",
+                  py: 1.2,
                 }}
                 onClick={handleDeleteBook}
               >
@@ -179,13 +219,13 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
                 fullWidth
                 startIcon={<ShoppingCartIcon />}
                 sx={{
-                  textTransform: "none",
-                  backgroundColor: "#2563eb",
+                  backgroundColor: colors.primaryMain,
                   "&:hover": {
-                    backgroundColor: "#1e40af",
+                    backgroundColor: colors.primaryLight,
                   },
-                  fontWeight: 500,
-                  borderRadius: 2,
+                  fontWeight: 600,
+                  fontSize: "0.95rem",
+                  py: 1.2,
                 }}
                 onClick={handleAddCart}
               >

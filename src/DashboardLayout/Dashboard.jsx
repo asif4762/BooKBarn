@@ -12,6 +12,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  useTheme,
+  ButtonBase,
 } from "@mui/material";
 import { useContext } from "react";
 import { AuthContext } from "../Providers/AuthProviders";
@@ -24,24 +26,25 @@ const navItems = [
 ];
 
 export default function SidebarDashboard() {
-  const { user, logOut } = useContext(AuthContext);
+  const theme = useTheme();
+  const { logOut } = useContext(AuthContext);
   const location = useLocation();
   const currentPath = location.pathname;
 
   const handleLogout = () => {
     logOut()
-      .then(() => {
-        toast.success("You logged out successfully");
-      })
+      .then(() => toast.success("You logged out successfully"))
       .catch((err) => {
         toast.error("Something went wrong");
         console.error("Logout error:", err);
       });
   };
 
+  const blue = "#1976d2";
+  const blueLight = "#2196f3";
+
   return (
     <Box sx={{ width: 240 }}>
-      {/* Sidebar */}
       <Paper
         elevation={3}
         sx={{
@@ -50,15 +53,21 @@ export default function SidebarDashboard() {
           flexDirection: "column",
           justifyContent: "space-between",
           p: 2,
-          bgcolor: "#fff",
-          borderRight: "1px solid #ddd",
+          bgcolor: theme.palette.background.paper,
+          borderRight: `1px solid ${theme.palette.divider}`,
         }}
       >
-        {/* Top Menu */}
+        {/* Top */}
         <Box>
           <Typography
             variant="h6"
-            sx={{ mb: 3, fontWeight: "bold", color: "#333" }}
+            sx={{
+              mb: 3,
+              fontWeight: "bold",
+              color: blue,
+              textAlign: "center",
+              textShadow: `0 0 6px ${blueLight}99`,
+            }}
           >
             Dashboard
           </Typography>
@@ -71,26 +80,26 @@ export default function SidebarDashboard() {
                   : currentPath === path;
 
               return (
-                <NavLink
-                  key={label}
-                  to={path}
-                  style={{ textDecoration: "none" }}
-                >
+                <NavLink key={label} to={path} style={{ textDecoration: "none" }}>
                   <ListItem
                     sx={{
                       cursor: "pointer",
                       borderRadius: 2,
                       mb: 1,
-                      bgcolor: isActive ? "#e3f2fd" : "transparent",
-                      color: isActive ? "#1976d2" : "#333",
+                      bgcolor: isActive ? `${blue}22` : "transparent",
+                      color: isActive ? blue : theme.palette.text.primary,
                       transition: "all 0.3s ease",
                       "&:hover": {
-                        bgcolor: "#e3f2fd",
+                        bgcolor: `${blueLight}22`,
                         transform: "scale(1.03)",
                       },
                     }}
                   >
-                    <ListItemIcon sx={{ color: isActive ? "#1976d2" : "#666" }}>
+                    <ListItemIcon
+                      sx={{
+                        color: isActive ? blue : theme.palette.text.secondary,
+                      }}
+                    >
                       {icon}
                     </ListItemIcon>
                     <ListItemText
@@ -109,14 +118,12 @@ export default function SidebarDashboard() {
         {/* Logout */}
         <List>
           <ListItem
-            button
+            component={ButtonBase}
             onClick={handleLogout}
             sx={{
               cursor: "pointer",
               borderRadius: 2,
-              bgcolor: "transparent",
-              color: "#333",
-              transition: "all 0.3s ease",
+              color: theme.palette.text.primary,
               "&:hover": {
                 bgcolor: "#ffebee",
                 color: "#d32f2f",
@@ -124,15 +131,10 @@ export default function SidebarDashboard() {
               },
             }}
           >
-            <ListItemIcon sx={{ color: "#666" }}>
+            <ListItemIcon sx={{ color: theme.palette.text.secondary }}>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText
-              primary="Logout"
-              primaryTypographyProps={{
-                fontWeight: "normal",
-              }}
-            />
+            <ListItemText primary="Logout" />
           </ListItem>
         </List>
       </Paper>

@@ -52,15 +52,15 @@ const Login = () => {
 
   return (
     <div
-      className="pt-[96px] min-h-screen flex items-center justify-center px-4 py-12 text-[#1e88e5]"
-      style={{ backgroundColor: "#e6e6e6" }} // slight ash background
+      className="pt-[96px] min-h-screen flex items-center justify-center px-4 py-12"
+      style={{ backgroundColor: "#121212" }} // dark background
     >
       <Helmet>
         <title>BookBarn | Login</title>
       </Helmet>
 
       <div
-        className={`w-full max-w-4xl rounded-3xl shadow-xl border border-white/30 overflow-hidden flex flex-col lg:flex-row transition-all duration-300 bg-transparent ${
+        className={`w-full max-w-4xl rounded-3xl shadow-xl border border-white/10 overflow-hidden flex flex-col lg:flex-row transition-all duration-300 bg-[#1e1e1e] ${
           mounted ? "scale-100 opacity-100" : "scale-95 opacity-0"
         }`}
       >
@@ -81,23 +81,23 @@ const Login = () => {
 
           <h2
             className="text-3xl font-bold text-center mb-8 tracking-wide"
-            style={{ color: "#1e88e5" }}
+            style={{ color: "#64b5f6" }} // lighter blue for dark theme
           >
             Welcome Back!
           </h2>
 
           <button
             type="button"
-            className="flex items-center justify-center w-full mb-6 px-6 py-3 text-sm font-semibold text-[#1e88e5] bg-white border border-[#1e88e5] rounded-xl hover:bg-[#1e88e5] hover:text-white transition"
+            className="flex items-center justify-center w-full mb-6 px-6 py-3 text-sm font-semibold text-[#64b5f6] bg-[#1e1e1e] border border-[#64b5f6] rounded-xl hover:bg-[#64b5f6] hover:text-[#121212] transition"
           >
             <img className="h-4 pr-2" src="/google.png" alt="Google Icon" />
             Sign in with Google
           </button>
 
-          <div className="flex items-center justify-between mb-6 text-[#1e88e5] text-xs uppercase">
-            <span className="w-1/5 border-b border-[#1e88e5]/50"></span>
+          <div className="flex items-center justify-between mb-6 text-[#64b5f6] text-xs uppercase">
+            <span className="w-1/5 border-b border-[#64b5f6]/30"></span>
             <span className="text-center">or login with email</span>
-            <span className="w-1/5 border-b border-[#1e88e5]/50"></span>
+            <span className="w-1/5 border-b border-[#64b5f6]/30"></span>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
@@ -105,14 +105,14 @@ const Login = () => {
               <Mail
                 className="absolute left-3 top-3.5"
                 size={18}
-                style={{ color: "#1e88e5" }}
+                style={{ color: "#64b5f6" }}
               />
               <input
                 type="email"
                 name="email"
                 placeholder="Email address"
                 required
-                className="w-full pl-10 pr-4 py-3 text-[#1e88e5] bg-transparent border border-[#1e88e5]/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1e88e5] transition"
+                className="w-full pl-10 pr-4 py-3 text-[#e0e0e0] bg-[#2c2c2c] border border-[#64b5f6]/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#64b5f6] transition placeholder:text-[#bbbbbb]"
               />
             </div>
 
@@ -120,21 +120,21 @@ const Login = () => {
               <Lock
                 className="absolute left-3 top-3.5"
                 size={18}
-                style={{ color: "#1e88e5" }}
+                style={{ color: "#64b5f6" }}
               />
               <input
                 type="password"
                 name="password"
                 placeholder="Password"
                 required
-                className="w-full pl-10 pr-4 py-3 text-[#1e88e5] bg-transparent border border-[#1e88e5]/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1e88e5] transition"
+                className="w-full pl-10 pr-4 py-3 text-[#e0e0e0] bg-[#2c2c2c] border border-[#64b5f6]/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#64b5f6] transition placeholder:text-[#bbbbbb]"
               />
             </div>
 
             <div>
               <label
                 className="block text-sm font-medium mb-1"
-                style={{ color: "#1e88e5" }}
+                style={{ color: "#64b5f6" }}
               >
                 Captcha
               </label>
@@ -146,7 +146,7 @@ const Login = () => {
                 ref={captchaRef}
                 placeholder="Enter the text above"
                 required
-                className="w-full px-4 py-3 text-[#1e88e5] bg-transparent border border-[#1e88e5]/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1e88e5] transition"
+                className="w-full px-4 py-3 text-[#e0e0e0] bg-[#2c2c2c] border border-[#64b5f6]/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#64b5f6] transition placeholder:text-[#bbbbbb]"
               />
               {captchaError && (
                 <p className="text-sm text-red-500 mt-1">{captchaError}</p>
@@ -155,25 +155,25 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full py-3 text-sm font-semibold text-white rounded-xl transition"
-              style={{ backgroundColor: "#1e88e5" }}
+              className="w-full py-3 text-sm font-semibold text-[#121212] rounded-xl transition"
+              style={{ backgroundColor: "#64b5f6" }}
               onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = "#1565c0")
+                (e.currentTarget.style.backgroundColor = "#42a5f5")
               }
               onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = "#1e88e5")
+                (e.currentTarget.style.backgroundColor = "#64b5f6")
               }
             >
               Sign In
             </button>
           </form>
 
-          <p className="mt-6 text-sm text-center" style={{ color: "#1e88e5" }}>
+          <p className="mt-6 text-sm text-center" style={{ color: "#64b5f6" }}>
             New here?{" "}
             <NavLink
               to="/sign-up"
               className="hover:underline font-semibold"
-              style={{ color: "#1e88e5" }}
+              style={{ color: "#64b5f6" }}
             >
               Create an account
             </NavLink>

@@ -12,6 +12,7 @@ import AddBooks from "../pages/AddBooks/AddBooks";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import MyCart from "../DashboardLayout/MyCart";
+import MyBilling from "../DashboardLayout/MyBilling";
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
         path: "cart", // relative path /dashboard/cart
         element: <MyCart />,
       },
+      {
+        path: 'billings',
+        element: <MyBilling/>
+      }
     ],
   },
 ]);

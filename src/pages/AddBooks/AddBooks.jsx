@@ -26,19 +26,19 @@ const AddBook = () => {
   return (
     <div
       className="min-h-screen pt-[96px] flex items-center justify-center px-4"
-      style={{ backgroundColor: "#e6e6e6" }}
+      style={{ backgroundColor: "#121827" }} // Dark navy background
     >
       <Helmet>
         <title>BookBarn | Add Book</title>
       </Helmet>
 
       <div
-        className="w-full max-w-xl rounded-2xl shadow-xl border border-white/30 p-8"
-        style={{ backgroundColor: "transparent" }}
+        className="w-full max-w-xl rounded-2xl shadow-xl border border-blue-700/50 p-8"
+        style={{ backgroundColor: "#1e293b" }} // Dark slate background
       >
         <h2
           className="text-3xl font-bold text-center mb-6 tracking-wide"
-          style={{ color: "#1e88e5" }}
+          style={{ color: "#90caf9" }} // Soft blue text
         >
           Add a New Book
         </h2>
@@ -50,8 +50,8 @@ const AddBook = () => {
               type="text"
               {...register("title", { required: "Title is required" })}
               placeholder="Book Title"
-              className="pl-4 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
-              style={{ color: "#1e88e5" }}
+              className="pl-4 pr-4 py-3 w-full rounded-lg border border-blue-700 bg-transparent text-blue-100 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ color: "#90caf9" }}
             />
             {errors.title && (
               <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
@@ -64,8 +64,8 @@ const AddBook = () => {
               type="text"
               {...register("author", { required: "Author is required" })}
               placeholder="Author"
-              className="pl-4 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
-              style={{ color: "#1e88e5" }}
+              className="pl-4 pr-4 py-3 w-full rounded-lg border border-blue-700 bg-transparent text-blue-100 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ color: "#90caf9" }}
             />
             {errors.author && (
               <p className="text-red-500 text-sm mt-1">{errors.author.message}</p>
@@ -84,8 +84,8 @@ const AddBook = () => {
                 },
               })}
               placeholder="Image URL"
-              className="pl-4 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
-              style={{ color: "#1e88e5" }}
+              className="pl-4 pr-4 py-3 w-full rounded-lg border border-blue-700 bg-transparent text-blue-100 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ color: "#90caf9" }}
             />
             {errors.image && (
               <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
@@ -98,8 +98,8 @@ const AddBook = () => {
               type="text"
               {...register("course", { required: "Course is required" })}
               placeholder="Course"
-              className="pl-4 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
-              style={{ color: "#1e88e5" }}
+              className="pl-4 pr-4 py-3 w-full rounded-lg border border-blue-700 bg-transparent text-blue-100 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ color: "#90caf9" }}
             />
             {errors.course && (
               <p className="text-red-500 text-sm mt-1">{errors.course.message}</p>
@@ -114,8 +114,8 @@ const AddBook = () => {
               })}
               placeholder="Course Description"
               rows={4}
-              className="pl-4 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
-              style={{ color: "#1e88e5" }}
+              className="pl-4 pr-4 py-3 w-full rounded-lg border border-blue-700 bg-transparent text-blue-100 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+              style={{ color: "#90caf9" }}
             />
             {errors.courseDescription && (
               <p className="text-red-500 text-sm mt-1">
@@ -130,8 +130,8 @@ const AddBook = () => {
               type="text"
               {...register("location", { required: "Location is required" })}
               placeholder="Location"
-              className="pl-4 pr-4 py-3 w-full rounded-lg border border-white/40 bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
-              style={{ color: "#1e88e5" }}
+              className="pl-4 pr-4 py-3 w-full rounded-lg border border-blue-700 bg-transparent text-blue-100 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ color: "#90caf9" }}
             />
             {errors.location && (
               <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
