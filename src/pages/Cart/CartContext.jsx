@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useState } from "react";
+import { AuthContext } from "../../Providers/AuthProviders";
 
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
+  // Get the user from AuthContext inside the component, not outside
+  const { email } = useContext(AuthContext);
+
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (book) => {
@@ -32,7 +36,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, clearCart }}
+      value={{ cartItems, addToCart, removeFromCart, clearCart, email }}
     >
       {children}
     </CartContext.Provider>

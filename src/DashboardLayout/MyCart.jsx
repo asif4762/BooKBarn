@@ -40,7 +40,6 @@ export default function MyCart() {
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Failed to load cart");
       })
       .finally(() => setLoading(false));
   }, [user?.email]);

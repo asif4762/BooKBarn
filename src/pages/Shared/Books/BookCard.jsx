@@ -39,26 +39,30 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
   }, [user?.email]);
 
   const handleAddCart = async () => {
-    if (user) {
-      try {
-        const { _id, ...rest } = book;
-        const data = {
-          email: user.email,
-          bookId: _id,
-          ...rest,
-        };
-        await axios.post("http://localhost:8157/carts", data);
-        toast.success("Added to cart!");
-        if (onAddToCart) onAddToCart(book);
-      } catch (err) {
-        console.error("Error adding to cart:", err);
-        toast.error("Failed to add to cart. Please try again.");
-      }
-    } else {
-      toast.error("Please login first to add items to your cart.");
-      navigate("/login");
+  if (user) {
+    try {
+      const data = {
+        email: user.email,
+        _id: book._id,        // send _id as _id, not bookId
+        title: book.title,
+        author: book.author,
+        price: book.price,
+        image: book.image,
+        count: 1,
+      };
+      await axios.post("http://localhost:8157/carts", data);
+      toast.success("Added to cart!");
+      if (onAddToCart) onAddToCart(book);
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+      toast.error("Failed to add to cart. Please try again.");
     }
-  };
+  } else {
+    toast.error("Please login first to add items to your cart.");
+    navigate("/login");
+  }
+};
+
 
   const handleDeleteBook = async () => {
     try {
