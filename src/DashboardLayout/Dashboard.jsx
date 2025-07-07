@@ -4,8 +4,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import LogoutIcon from "@mui/icons-material/Logout";
-import PeopleIcon from "@mui/icons-material/People";       // For Users
-import MessageIcon from "@mui/icons-material/Message";     // For Messages
+import PeopleIcon from "@mui/icons-material/People"; // For Users
+import MessageIcon from "@mui/icons-material/Message"; // For Messages
+import LocalShippingIcon from "@mui/icons-material/LocalShipping"; // For Delivery Status
 import {
   Box,
   Paper,
@@ -60,6 +61,7 @@ export default function SidebarDashboard() {
         { label: "Home", icon: <HomeIcon />, path: "/" },
         { label: "My Cart", icon: <ShoppingCartIcon />, path: "/dashboard/cart" },
         { label: "My Billings", icon: <ReceiptIcon />, path: "/dashboard/billings" },
+        { label: "Delivery Status", icon: <LocalShippingIcon />, path: "/dashboard/delivery-status" }
       ];
 
   const handleLogout = () => {

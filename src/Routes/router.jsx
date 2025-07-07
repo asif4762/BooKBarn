@@ -15,6 +15,7 @@ import MyCart from "../DashboardLayout/MyCart";
 import MyBilling from "../DashboardLayout/MyBilling";
 import Users from "../DashboardLayout/UsersDashboard";
 import ContactUs from "../DashboardLayout/ContactUs";
+import DeliveryStatus from "../DashboardLayout/DeliveryStatus";
 
 export const router = createBrowserRouter([
   {
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
       {
         path:'messages',
         element:<ContactUs/>
+      },
+      {
+        path:'delivery-status',
+        element:<DeliveryStatus/>
       }
     ],
   },
