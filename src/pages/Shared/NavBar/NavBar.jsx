@@ -15,8 +15,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AuthContext } from "../../../Providers/AuthProviders";
 import toast from "react-hot-toast";
@@ -28,6 +27,7 @@ const NavBar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user?.email) {
@@ -53,6 +53,7 @@ const NavBar = () => {
     logOut()
       .then(() => {
         toast.success("You logged out successfully");
+        navigate("/login"); // Redirect to login page after logout
       })
       .catch((err) => {
         toast.error("Something went wrong");

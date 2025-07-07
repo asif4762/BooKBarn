@@ -39,30 +39,43 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
   }, [user?.email]);
 
   const handleAddCart = async () => {
-  if (user) {
+    if (!user) {
+      toast.error("Please login first to add items to your cart.");
+      navigate("/login");
+      return;
+    }
+
     try {
       const data = {
         email: user.email,
-        _id: book._id,        // send _id as _id, not bookId
+        _id: book._id,
         title: book.title,
         author: book.author,
         price: book.price,
         image: book.image,
         count: 1,
       };
-      await axios.post("http://localhost:8157/carts", data);
-      toast.success("Added to cart!");
-      if (onAddToCart) onAddToCart(book);
-    } catch (err) {
-      console.error("Error adding to cart:", err);
-      toast.error("Failed to add to cart. Please try again.");
-    }
-  } else {
-    toast.error("Please login first to add items to your cart.");
-    navigate("/login");
-  }
-};
 
+      const response = await axios.post("http://localhost:8157/carts", data);
+      console.log("Cart response:", response.data);
+
+      if (
+        response.status === 200 ||
+        response.data?.acknowledged ||
+        response.data?.insertedId
+      ) {
+        toast.success("Added to cart!");
+        if (onAddToCart) onAddToCart(book);
+      } else {
+        toast.error("Server responded, but item may not have been added.");
+      }
+    } catch (err) {
+      console.error("Error adding to cart:", err?.response || err);
+      toast.error(
+        err?.response?.data?.message || "Failed to add to cart. Please try again."
+      );
+    }
+  };
 
   const handleDeleteBook = async () => {
     try {
@@ -74,7 +87,6 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
     }
   };
 
-  // Hardcoded blue/dark theme colors
   const colors = {
     primaryMain: "#1e88e5",
     primaryLight: "#42a5f5",

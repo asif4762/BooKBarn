@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ReceiptIcon from "@mui/icons-material/Receipt";
@@ -29,11 +29,15 @@ export default function SidebarDashboard() {
   const theme = useTheme();
   const { logOut } = useContext(AuthContext);
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
 
   const handleLogout = () => {
     logOut()
-      .then(() => toast.success("You logged out successfully"))
+      .then(() => {
+        toast.success("You logged out successfully");
+        navigate("/login"); // Redirect after logout
+      })
       .catch((err) => {
         toast.error("Something went wrong");
         console.error("Logout error:", err);

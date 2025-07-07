@@ -1,13 +1,14 @@
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../Providers/AuthProviders";
 import { Navigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 
+// Global flag outside component scope to prevent duplicate toasts
+let hasShownToastGlobal = false;
+
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
   const location = useLocation();
-
-  const hasShownToast = useRef(false);
 
   if (loading) {
     return (
@@ -16,14 +17,17 @@ const PrivateRoute = ({ children }) => {
       </div>
     );
   }
-  console.log("PrivateRoute → user:", user);
+
   if (user) {
+    // Reset flag when user logs in successfully (so next redirect can show toast again)
+    hasShownToastGlobal = false;
     return children;
   }
 
-  if (!hasShownToast.current) {
+  // Only show toast once when redirected from protected route
+  if (!hasShownToastGlobal && location.state?.from) {
     toast.error("Please login first");
-    hasShownToast.current = true;
+    hasShownToastGlobal = true;
   }
 
   return <Navigate to="/login" state={{ from: location }} replace />;

@@ -19,6 +19,14 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
 
   const [mounted, setMounted] = useState(false);
+
+  // Show toast only if redirected from PrivateRoute
+  useEffect(() => {
+    if (location.state?.from) {
+      toast.error("Please login first");
+    }
+  }, [location.state]);
+
   useEffect(() => {
     loadCaptchaEnginge(6);
     setTimeout(() => setMounted(true), 50);
@@ -53,7 +61,7 @@ const Login = () => {
   return (
     <div
       className="pt-[96px] min-h-screen flex items-center justify-center px-4 py-12"
-      style={{ backgroundColor: "#121212" }} // dark background
+      style={{ backgroundColor: "#121212" }}
     >
       <Helmet>
         <title>BookBarn | Login</title>
@@ -81,7 +89,7 @@ const Login = () => {
 
           <h2
             className="text-3xl font-bold text-center mb-8 tracking-wide"
-            style={{ color: "#64b5f6" }} // lighter blue for dark theme
+            style={{ color: "#64b5f6" }}
           >
             Welcome Back!
           </h2>

@@ -20,6 +20,8 @@ const SignUp = () => {
   } = useForm();
 
   const [mounted, setMounted] = useState(false);
+  const [loadingRedirect, setLoadingRedirect] = useState(false);
+
   useEffect(() => {
     setTimeout(() => setMounted(true), 50);
   }, []);
@@ -41,10 +43,13 @@ const SignUp = () => {
         email: data.email,
         role: "user",
       };
+
       const response = await axios.post("http://localhost:8157/users", savedUser);
+
       if (response.data.insertedId || response.data.acknowledged) {
-        toast.success("You created a new account successfully");
-        navigate("/");
+        toast.success("Account created successfully");
+        setLoadingRedirect(true);
+        setTimeout(() => navigate("/"), 300); // Allow AuthContext to update
       } else {
         toast.error("User not saved in database");
       }
@@ -54,7 +59,6 @@ const SignUp = () => {
     }
   };
 
-  // Colors to match Login dark theme
   const blue = "#64b5f6";
   const blueLight = "#90caf9";
   const darkBg = "#1e1e1e";
@@ -150,109 +154,117 @@ const SignUp = () => {
           Create Your BookBarn Account
         </h2>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Name */}
-          <div style={inputWrapperStyle(errors.name)}>
-            <User size={22} style={iconStyle(errors.name)} />
-            <input
-              type="text"
-              {...register("name", { required: "Full Name is required" })}
-              placeholder="Full Name"
-              style={inputStyle}
-            />
-          </div>
-          {errors.name && <ErrorMessage message={errors.name.message} />}
+        {loadingRedirect ? (
+          <div className="text-center text-white text-lg">Redirecting...</div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Name */}
+            <div style={inputWrapperStyle(errors.name)}>
+              <User size={22} style={iconStyle(errors.name)} />
+              <input
+                type="text"
+                {...register("name", { required: "Full Name is required" })}
+                placeholder="Full Name"
+                style={inputStyle}
+              />
+            </div>
+            {errors.name && <ErrorMessage message={errors.name.message} />}
 
-          {/* Email with edu validation */}
-          <div style={inputWrapperStyle(errors.email)}>
-            <Mail size={22} style={iconStyle(errors.email)} />
-            <input
-              type="email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^\S+@\S+$/i,
-                  message: "Enter a valid email address",
-                },
-                validate: (email) => {
-                  const domain = email.split("@")[1]?.toLowerCase() || "";
-                  return (
-                    domain.includes(".edu") ||
-                    "You must use an educational email address"
-                  );
-                },
-              })}
-              placeholder="Educational Email Address"
-              style={inputStyle}
-            />
-          </div>
-          {errors.email && <ErrorMessage message={errors.email.message} />}
+            {/* Email */}
+            <div style={inputWrapperStyle(errors.email)}>
+              <Mail size={22} style={iconStyle(errors.email)} />
+              <input
+                type="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "Enter a valid email address",
+                  },
+                  validate: (email) => {
+                    const domain = email.split("@")[1]?.toLowerCase() || "";
+                    return (
+                      domain.includes(".edu") ||
+                      "You must use an educational email address"
+                    );
+                  },
+                })}
+                placeholder="Educational Email Address"
+                style={inputStyle}
+              />
+            </div>
+            {errors.email && <ErrorMessage message={errors.email.message} />}
 
-          {/* Password */}
-          <div style={inputWrapperStyle(errors.password)}>
-            <Lock size={22} style={iconStyle(errors.password)} />
-            <input
-              type="password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-              })}
-              placeholder="Password"
-              style={inputStyle}
-            />
-          </div>
-          {errors.password && <ErrorMessage message={errors.password.message} />}
+            {/* Password */}
+            <div style={inputWrapperStyle(errors.password)}>
+              <Lock size={22} style={iconStyle(errors.password)} />
+              <input
+                type="password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
+                placeholder="Password"
+                style={inputStyle}
+              />
+            </div>
+            {errors.password && <ErrorMessage message={errors.password.message} />}
 
-          {/* Confirm Password */}
-          <div style={inputWrapperStyle(errors.confirmPassword)}>
-            <Lock size={22} style={iconStyle(errors.confirmPassword)} />
-            <input
-              type="password"
-              {...register("confirmPassword", {
-                required: "Please confirm your password",
-              })}
-              placeholder="Confirm Password"
-              style={inputStyle}
-            />
-          </div>
-          {errors.confirmPassword && (
-            <ErrorMessage message={errors.confirmPassword.message} />
-          )}
+            {/* Confirm Password */}
+            <div style={inputWrapperStyle(errors.confirmPassword)}>
+              <Lock size={22} style={iconStyle(errors.confirmPassword)} />
+              <input
+                type="password"
+                {...register("confirmPassword", {
+                  required: "Please confirm your password",
+                })}
+                placeholder="Confirm Password"
+                style={inputStyle}
+              />
+            </div>
+            {errors.confirmPassword && (
+              <ErrorMessage message={errors.confirmPassword.message} />
+            )}
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="mt-8 w-full py-3 text-sm font-semibold rounded-xl transition"
-            style={{
-              backgroundColor: blue,
-              color: "#121212",
-              boxShadow: `0 8px 15px ${blue}aa`,
-              userSelect: "none",
-              letterSpacing: "0.05em",
-              textShadow: `0 0 6px ${blueLight}`,
-              fontFamily: "'Inter', sans-serif",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = blueLight;
-              e.currentTarget.style.transform = "scale(1.03)";
-              e.currentTarget.style.boxShadow = `0 12px 20px ${blueLight}cc`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = blue;
-              e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.boxShadow = `0 8px 15px ${blue}aa`;
-            }}
-          >
-            Sign Up
-          </button>
-        </form>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="mt-8 w-full py-3 text-sm font-semibold rounded-xl transition"
+              style={{
+                backgroundColor: blue,
+                color: "#121212",
+                boxShadow: `0 8px 15px ${blue}aa`,
+                userSelect: "none",
+                letterSpacing: "0.05em",
+                textShadow: `0 0 6px ${blueLight}`,
+                fontFamily: "'Inter', sans-serif",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = blueLight;
+                e.currentTarget.style.transform = "scale(1.03)";
+                e.currentTarget.style.boxShadow = `0 12px 20px ${blueLight}cc`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = blue;
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = `0 8px 15px ${blue}aa`;
+              }}
+            >
+              Sign Up
+            </button>
+          </form>
+        )}
 
         <p
           className="text-center text-sm mt-6 font-semibold"
-          style={{ color: blue, letterSpacing: "0.03em", fontFamily: "'Inter', sans-serif" }}
+          style={{
+            color: blue,
+            letterSpacing: "0.03em",
+            fontFamily: "'Inter', sans-serif",
+          }}
         >
           Already have an account?{" "}
           <NavLink to="/login" className="hover:underline" style={{ color: blue }}>

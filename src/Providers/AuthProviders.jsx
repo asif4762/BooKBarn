@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { app } from "../firebase/firebase.config";
@@ -18,45 +19,46 @@ const AuthProviders = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Create new user with email & password
+  // Create a new user
   const createUser = (email, password) => {
-    setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password)
-      .finally(() => setLoading(false));
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // Sign in user
   const signIn = (email, password) => {
-    setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password)
-      .finally(() => setLoading(false));
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  // Update user profile (e.g., display name)
+  const updateUserProfile = (displayName) => {
+    if (!auth.currentUser) return Promise.reject("No user is signed in");
+    return updateProfile(auth.currentUser, { displayName });
   };
 
   // Sign out user
   const logOut = () => {
-    setLoading(true);
-    return signOut(auth)
-      .finally(() => setLoading(false));
+    return signOut(auth);
   };
 
   // Track auth state changes
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("Auth State Changed: ", currentUser);
+      console.log("Auth state changed:", currentUser);
       setLoading(false);
     });
 
-    return () => unSubscribe();
+    return () => unsubscribe();
   }, []);
 
-  // Context value
+  // Auth context value
   const authInfo = {
     user,
     loading,
     createUser,
     signIn,
     logOut,
+    updateUserProfile,
   };
 
   return (
