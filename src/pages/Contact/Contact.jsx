@@ -31,7 +31,7 @@ const Contact = () => {
     try {
       // It's good practice to use environment variables for API URLs
       // For example: process.env.REACT_APP_API_URL/contact
-      const res = await axios.post("http://7/contact", formData);
+      const res = await axios.post("http://localhost:8157/contact", formData);
       setFeedback({ type: "success", message: "Message sent successfully!" });
       setFormData({ name: '', email: '', message: '' }); // Clear form on success
     } catch (err) {

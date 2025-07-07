@@ -58,6 +58,11 @@ const Books = () => {
     fetchBooks();
   }, [selectedCategory]);
 
+  // This function removes deleted book from UI instantly
+  const handleDelete = (deletedBookId) => {
+    setBooks((prevBooks) => prevBooks.filter((book) => book._id !== deletedBookId));
+  };
+
   const filteredBooks = books.filter((book) =>
     `${book.title} ${book.author} ${book.course}`
       .toLowerCase()
@@ -78,13 +83,13 @@ const Books = () => {
   };
 
   // Hardcoded blue colors for consistency:
-  const primaryMain = "#1e88e5";      // Main blue
-  const primaryLight = "#42a5f5";     // Lighter blue
-  const backgroundPaper = "#121212";  // Dark background
+  const primaryMain = "#1e88e5"; // Main blue
+  const primaryLight = "#42a5f5"; // Lighter blue
+  const backgroundPaper = "#121212"; // Dark background
   const backgroundDefault = "#1e1e1e"; // Slightly lighter dark background
-  const textPrimary = "#e0e0e0";      // Light gray text
-  const textSecondary = "#a0a0a0";    // Secondary text gray
-  const divider = "#2a2a2a";          // Border gray
+  const textPrimary = "#e0e0e0"; // Light gray text
+  const textSecondary = "#a0a0a0"; // Secondary text gray
+  const divider = "#2a2a2a"; // Border gray
 
   return (
     <Container
@@ -180,7 +185,7 @@ const Books = () => {
         {currentBooks.length > 0 ? (
           currentBooks.map((book, idx) => (
             <Grid item key={book._id || idx}>
-              <BookCard book={book} />
+              <BookCard book={book} onDelete={handleDelete} />
             </Grid>
           ))
         ) : (

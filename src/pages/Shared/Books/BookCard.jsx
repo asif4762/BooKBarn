@@ -13,6 +13,8 @@ import { AuthContext } from "../../../Providers/AuthProviders";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
+
 
 const BookCard = ({ book, onAddToCart, onDelete }) => {
   const { user } = useContext(AuthContext);
@@ -77,15 +79,44 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
     }
   };
 
-  const handleDeleteBook = async () => {
+const handleDeleteBook = async () => {
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#e53935',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!',
+    reverseButtons: true,
+  });
+
+  if (result.isConfirmed) {
     try {
-      toast.success("Book Deleted Successfully!");
+      await axios.delete(`http://localhost:8157/books/${book._id}`);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Deleted!',
+        text: 'Book has been deleted.',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
       if (onDelete) onDelete(book._id);
     } catch (err) {
       console.error("Error deleting book:", err);
-      toast.error("Failed to delete book.");
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err?.response?.data?.message || 'Failed to delete book. Please try again.',
+      });
     }
-  };
+  }
+};
+
+
 
   const colors = {
     primaryMain: "#1e88e5",

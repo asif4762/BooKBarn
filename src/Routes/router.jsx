@@ -13,6 +13,8 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import MyCart from "../DashboardLayout/MyCart";
 import MyBilling from "../DashboardLayout/MyBilling";
+import Users from "../DashboardLayout/UsersDashboard";
+import ContactUs from "../DashboardLayout/ContactUs";
 
 export const router = createBrowserRouter([
   {
@@ -80,6 +82,14 @@ export const router = createBrowserRouter([
       {
         path: 'billings',
         element: <MyBilling/>
+      },
+      {
+        path: 'users',
+        element: <Users/>
+      },
+      {
+        path:'messages',
+        element:<ContactUs/>
       }
     ],
   },

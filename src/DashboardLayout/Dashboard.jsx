@@ -4,6 +4,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import LogoutIcon from "@mui/icons-material/Logout";
+import PeopleIcon from "@mui/icons-material/People";       // For Users
+import MessageIcon from "@mui/icons-material/Message";     // For Messages
 import {
   Box,
   Paper,
@@ -15,22 +17,50 @@ import {
   useTheme,
   ButtonBase,
 } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../Providers/AuthProviders";
 import toast from "react-hot-toast";
-
-const navItems = [
-  { label: "Home", icon: <HomeIcon />, path: "/" },
-  { label: "My Cart", icon: <ShoppingCartIcon />, path: "/dashboard/cart" },
-  { label: "My Billings", icon: <ReceiptIcon />, path: "/dashboard/billings" },
-];
+import axios from "axios";
 
 export default function SidebarDashboard() {
   const theme = useTheme();
-  const { logOut } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const currentPath = location.pathname;
+
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!user?.email) {
+      setIsAdmin(false);
+      return;
+    }
+    // Fetch role from backend
+    const fetchRole = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8157/users/${user.email}`);
+        setIsAdmin(res.data?.role === "admin");
+      } catch (err) {
+        console.error("Error fetching user role:", err);
+        setIsAdmin(false);
+      }
+    };
+    fetchRole();
+  }, [user?.email]);
+
+  // Define navItems based on role
+  const navItems = isAdmin
+    ? [
+        { label: "Home", icon: <HomeIcon />, path: "/" },
+        { label: "Users", icon: <PeopleIcon />, path: "/dashboard/users" },
+        { label: "Messages", icon: <MessageIcon />, path: "/dashboard/messages" },
+      ]
+    : [
+        { label: "Home", icon: <HomeIcon />, path: "/" },
+        { label: "My Cart", icon: <ShoppingCartIcon />, path: "/dashboard/cart" },
+        { label: "My Billings", icon: <ReceiptIcon />, path: "/dashboard/billings" },
+      ];
 
   const handleLogout = () => {
     logOut()

@@ -28,11 +28,11 @@ const NavBar = () => {
 
   const { user, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  console.log(user)
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:8157/users/${user.email}`)
+        .get(`http://localhost:8157/users/${user?.email}`)
         .then((res) => {
           setIsAdmin(res.data?.role === "admin");
         })
@@ -86,7 +86,7 @@ const NavBar = () => {
     {
       label: "Cart",
       icon: <ShoppingCart fontSize="small" />,
-      path: "/cart",
+      path: "/dashboard/cart",
       show: !isAdmin,
     },
   ];
