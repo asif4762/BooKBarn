@@ -13,18 +13,15 @@ import { Lock, Mail } from "lucide-react";
 const Login = () => {
   const [captchaError, setCaptchaError] = useState("");
   const captchaRef = useRef(null);
-  const { signIn } = useContext(AuthContext);
+  const { signIn, signInWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
   const [mounted, setMounted] = useState(false);
 
-  // Show toast only if redirected from PrivateRoute
   useEffect(() => {
-    if (location.state?.from) {
-      toast.error("Please login first");
-    }
+    if (location.state?.from) toast.error("Please login first");
   }, [location.state]);
 
   useEffect(() => {
@@ -55,6 +52,18 @@ const Login = () => {
       .catch((err) => {
         toast.error("Login failed. Invalid email or password.");
         console.error(err);
+      });
+  };
+
+  const handleGoogleLogin = () => {
+    signInWithGoogle()
+      .then(() => {
+        toast.success("Logged in with Google!");
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
+        console.error("Google login error:", err);
+        toast.error("Google login failed");
       });
   };
 
@@ -94,8 +103,10 @@ const Login = () => {
             Welcome Back!
           </h2>
 
+          {/* Google Login Button */}
           <button
             type="button"
+            onClick={handleGoogleLogin}
             className="flex items-center justify-center w-full mb-6 px-6 py-3 text-sm font-semibold text-[#64b5f6] bg-[#1e1e1e] border border-[#64b5f6] rounded-xl hover:bg-[#64b5f6] hover:text-[#121212] transition"
           >
             <img className="h-4 pr-2" src="/google.png" alt="Google Icon" />
@@ -108,13 +119,10 @@ const Login = () => {
             <span className="w-1/5 border-b border-[#64b5f6]/30"></span>
           </div>
 
+          {/* Email Login Form */}
           <form onSubmit={handleLogin} className="space-y-5">
             <div className="relative">
-              <Mail
-                className="absolute left-3 top-3.5"
-                size={18}
-                style={{ color: "#64b5f6" }}
-              />
+              <Mail className="absolute left-3 top-3.5" size={18} style={{ color: "#64b5f6" }} />
               <input
                 type="email"
                 name="email"
@@ -125,11 +133,7 @@ const Login = () => {
             </div>
 
             <div className="relative">
-              <Lock
-                className="absolute left-3 top-3.5"
-                size={18}
-                style={{ color: "#64b5f6" }}
-              />
+              <Lock className="absolute left-3 top-3.5" size={18} style={{ color: "#64b5f6" }} />
               <input
                 type="password"
                 name="password"
@@ -140,10 +144,7 @@ const Login = () => {
             </div>
 
             <div>
-              <label
-                className="block text-sm font-medium mb-1"
-                style={{ color: "#64b5f6" }}
-              >
+              <label className="block text-sm font-medium mb-1" style={{ color: "#64b5f6" }}>
                 Captcha
               </label>
               <div className="mb-3">
@@ -165,12 +166,8 @@ const Login = () => {
               type="submit"
               className="w-full py-3 text-sm font-semibold text-[#121212] rounded-xl transition"
               style={{ backgroundColor: "#64b5f6" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = "#42a5f5")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = "#64b5f6")
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#42a5f5")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#64b5f6")}
             >
               Sign In
             </button>
