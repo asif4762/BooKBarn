@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-
 const BookCard = ({ book, onAddToCart, onDelete }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -59,8 +58,6 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
       };
 
       const response = await axios.post("http://localhost:8157/carts", data);
-      console.log("Cart response:", response.data);
-
       if (
         response.status === 200 ||
         response.data?.acknowledged ||
@@ -79,44 +76,42 @@ const BookCard = ({ book, onAddToCart, onDelete }) => {
     }
   };
 
-const handleDeleteBook = async () => {
-  const result = await Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#e53935',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Yes, delete it!',
-    reverseButtons: true,
-  });
+  const handleDeleteBook = async () => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#e53935',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      reverseButtons: true,
+    });
 
-  if (result.isConfirmed) {
-    try {
-      await axios.delete(`http://localhost:8157/books/${book._id}`);
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:8157/books/${book._id}`);
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Deleted!',
-        text: 'Book has been deleted.',
-        timer: 2000,
-        showConfirmButton: false,
-      });
+        Swal.fire({
+          icon: 'success',
+          title: 'Deleted!',
+          text: 'Book has been deleted.',
+          timer: 2000,
+          showConfirmButton: false,
+        });
 
-      if (onDelete) onDelete(book._id);
-    } catch (err) {
-      console.error("Error deleting book:", err);
+        if (onDelete) onDelete(book._id);
+      } catch (err) {
+        console.error("Error deleting book:", err);
 
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: err?.response?.data?.message || 'Failed to delete book. Please try again.',
-      });
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: err?.response?.data?.message || 'Failed to delete book. Please try again.',
+        });
+      }
     }
-  }
-};
-
-
+  };
 
   const colors = {
     primaryMain: "#1e88e5",
@@ -144,16 +139,14 @@ const handleDeleteBook = async () => {
       <Card
         sx={{
           width: 300,
+          minHeight: 520,
           borderRadius: 12,
           overflow: "hidden",
           backgroundColor: colors.backgroundPaper,
-          boxShadow:
-            "0 12px 25px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(30,144,255,0.15)",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
           color: colors.textPrimary,
-          transition: "box-shadow 0.3s ease",
         }}
       >
         <Box
@@ -172,113 +165,92 @@ const handleDeleteBook = async () => {
               height: "100%",
               width: "100%",
               objectFit: "cover",
-              border: `1px solid ${colors.divider}`,
-              borderRadius: 2,
-              transition: "transform 0.4s ease-in-out",
-              "&:hover": {
-                transform: "scale(1.08)",
-              },
             }}
           />
         </Box>
 
         <CardContent
           sx={{
-            padding: 3,
+            padding: 2,
             display: "flex",
             flexDirection: "column",
-            gap: 1.5,
+            gap: 1,
             flexGrow: 1,
+            justifyContent: "space-between",
           }}
         >
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 700,
-              fontSize: "1.2rem",
-              lineHeight: 1.3,
-              color: colors.textPrimary,
-              height: "3.2rem",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              display: "-webkit-box",
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: "vertical",
-              textShadow: `0 0 5px ${colors.primaryLight}22`,
-            }}
-          >
-            {book.title}
-          </Typography>
+          <Box>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 700,
+                fontSize: "1.1rem",
+                lineHeight: 1.2,
+                height: "2.6rem",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+              }}
+            >
+              {book.title}
+            </Typography>
 
-          <Typography variant="body2" sx={{ color: colors.textSecondary }}>
-            <Box component="strong" sx={{ color: colors.primaryLight }}>
-              Author:
-            </Box>{" "}
-            {book.author}
-          </Typography>
-          <Typography variant="body2" sx={{ color: colors.textSecondary }}>
-            <Box component="strong" sx={{ color: colors.primaryLight }}>
-              Course:
-            </Box>{" "}
-            {book.course}
-          </Typography>
-          <Typography variant="body2" sx={{ color: colors.textSecondary }}>
-            <Box component="strong" sx={{ color: colors.primaryLight }}>
-              Condition:
-            </Box>{" "}
-            {book.condition.charAt(0).toUpperCase() + book.condition.slice(1)}
-          </Typography>
-          <Typography variant="body2" sx={{ color: colors.textDisabled }}>
-            <strong>Seller:</strong> {book.sellerName}
-          </Typography>
-          <Typography variant="body2" sx={{ color: colors.textDisabled }}>
-            <strong>Location:</strong> {book.location}
-          </Typography>
-          <Typography
-            variant="h5"
-            sx={{ color: colors.successMain, fontWeight: 700, mt: 1.5 }}
-          >
-            ৳{book.price}
-          </Typography>
+            <Typography variant="body2" sx={{ color: colors.textSecondary }}>
+              <strong>Author:</strong> {book.author.length > 25 ? book.author.slice(0, 22) + "..." : book.author}
+            </Typography>
 
-          <Box mt={3}>
-            {isAdmin ? (
-              <Button
-                variant="contained"
-                fullWidth
-                startIcon={<DeleteIcon />}
-                sx={{
-                  backgroundColor: colors.errorMain,
-                  "&:hover": {
-                    backgroundColor: colors.errorDark,
-                  },
-                  fontWeight: 600,
-                  fontSize: "0.95rem",
-                  py: 1.2,
-                }}
-                onClick={handleDeleteBook}
-              >
-                Delete Book
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                fullWidth
-                startIcon={<ShoppingCartIcon />}
-                sx={{
-                  backgroundColor: colors.primaryMain,
-                  "&:hover": {
-                    backgroundColor: colors.primaryLight,
-                  },
-                  fontWeight: 600,
-                  fontSize: "0.95rem",
-                  py: 1.2,
-                }}
-                onClick={handleAddCart}
-              >
-                Add to Cart
-              </Button>
-            )}
+            <Typography variant="body2" sx={{ color: colors.textSecondary }}>
+              <strong>Course:</strong> {book.course}
+            </Typography>
+
+            <Typography variant="body2" sx={{ color: colors.textSecondary }}>
+              <strong>Condition:</strong> {book.condition.charAt(0).toUpperCase() + book.condition.slice(1)}
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography variant="body2" sx={{ color: colors.textDisabled }}>
+              <strong>Seller:</strong> {book.sellerName}
+            </Typography>
+            <Typography variant="body2" sx={{ color: colors.textDisabled }}>
+              <strong>Location:</strong> {book.location}
+            </Typography>
+
+            <Typography variant="h5" sx={{ color: colors.successMain, fontWeight: 700, mt: 1 }}>
+              ৳{book.price}
+            </Typography>
+
+            <Box mt={2}>
+              {isAdmin ? (
+                <Button
+                  variant="contained"
+                  fullWidth
+                  startIcon={<DeleteIcon />}
+                  sx={{
+                    backgroundColor: colors.errorMain,
+                    "&:hover": { backgroundColor: colors.errorDark },
+                  }}
+                  onClick={handleDeleteBook}
+                >
+                  Delete
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  fullWidth
+                  startIcon={<ShoppingCartIcon />}
+                  sx={{
+                    backgroundColor: colors.primaryMain,
+                    "&:hover": { backgroundColor: colors.primaryLight },
+                  }}
+                  onClick={handleAddCart}
+                >
+                  Add to Cart
+                </Button>
+              )}
+            </Box>
           </Box>
         </CardContent>
       </Card>

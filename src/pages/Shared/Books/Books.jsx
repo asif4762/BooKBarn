@@ -23,14 +23,20 @@ const Books = () => {
 
   const [categories] = useState([
     "All",
-    "Machine Learning",
-    "Deep Learning",
     "AI",
     "Statistics",
     "Mathematics",
     "Networking",
     "Algorithms",
     "Operating Systems",
+    "History",
+    "Literature",
+    "Drama",
+    "Philosophy",
+    "Business",
+    "Economics",
+    "Art",
+    "Engineering",
   ]);
 
   const booksPerPage = 9;
@@ -46,7 +52,7 @@ const Books = () => {
         const url =
           selectedCategory === "All"
             ? "http://localhost:8157/books"
-            : `http://localhost:8157/books/${selectedCategory}`;
+            : `http://localhost:8157/books/category/${selectedCategory}`;
         const res = await axios.get(url);
         setBooks(res.data);
         setCurrentPage(1);
@@ -58,7 +64,7 @@ const Books = () => {
     fetchBooks();
   }, [selectedCategory]);
 
-  // This function removes deleted book from UI instantly
+  // Remove deleted book from UI instantly
   const handleDelete = (deletedBookId) => {
     setBooks((prevBooks) => prevBooks.filter((book) => book._id !== deletedBookId));
   };
@@ -82,14 +88,13 @@ const Books = () => {
     setSelectedCategory(event.target.value);
   };
 
-  // Hardcoded blue colors for consistency:
-  const primaryMain = "#1e88e5"; // Main blue
-  const primaryLight = "#42a5f5"; // Lighter blue
-  const backgroundPaper = "#121212"; // Dark background
-  const backgroundDefault = "#1e1e1e"; // Slightly lighter dark background
-  const textPrimary = "#e0e0e0"; // Light gray text
-  const textSecondary = "#a0a0a0"; // Secondary text gray
-  const divider = "#2a2a2a"; // Border gray
+  // Colors for dark theme
+  const primaryMain = "#1e88e5";
+  const primaryLight = "#42a5f5";
+  const backgroundPaper = "#121212";
+  const backgroundDefault = "#1e1e1e";
+  const textPrimary = "#e0e0e0";
+  const textSecondary = "#a0a0a0";
 
   return (
     <Container
@@ -131,12 +136,8 @@ const Books = () => {
           "& .MuiOutlinedInput-root": {
             backgroundColor: backgroundDefault,
             borderRadius: 2,
-            "& fieldset": {
-              borderColor: primaryMain,
-            },
-            "&:hover fieldset": {
-              borderColor: primaryLight,
-            },
+            "& fieldset": { borderColor: primaryMain },
+            "&:hover fieldset": { borderColor: primaryLight },
             "&.Mui-focused fieldset": {
               borderColor: primaryMain,
               boxShadow: `0 0 8px ${primaryMain}aa`,
@@ -144,24 +145,17 @@ const Books = () => {
           },
           "& .MuiInputLabel-root": {
             color: primaryMain,
-            "&.Mui-focused": {
-              color: primaryMain,
-            },
+            "&.Mui-focused": { color: primaryMain },
           },
         }}
         size="small"
       >
-        <InputLabel id="category-select-label" sx={{ color: primaryMain }}>
-          Select Category
-        </InputLabel>
+        <InputLabel id="category-select-label">Select Category</InputLabel>
         <Select
           labelId="category-select-label"
           value={selectedCategory}
-          label="Select Category"
           onChange={handleCategoryChange}
-          sx={{
-            color: textPrimary,
-          }}
+          sx={{ color: textPrimary }}
         >
           {categories.map((category) => (
             <MenuItem key={category} value={category} sx={{ color: textPrimary }}>
@@ -191,12 +185,7 @@ const Books = () => {
         ) : (
           <Typography
             variant="body1"
-            sx={{
-              mt: 4,
-              color: textSecondary,
-              width: "100%",
-              textAlign: "center",
-            }}
+            sx={{ mt: 4, color: textSecondary, width: "100%", textAlign: "center" }}
           >
             No books found for this category or search.
           </Typography>

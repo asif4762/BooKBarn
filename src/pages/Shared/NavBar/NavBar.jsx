@@ -83,12 +83,6 @@ const NavBar = () => {
       path: "/dashboard",
       show: true,
     },
-    {
-      label: "Cart",
-      icon: <ShoppingCart fontSize="small" />,
-      path: "/dashboard/cart",
-      show: !isAdmin,
-    },
   ];
 
   return (

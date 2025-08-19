@@ -7,6 +7,10 @@ import {
   Button,
   Divider,
   Stack,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
   useTheme,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -23,6 +27,8 @@ export default function MyCart() {
   const [loading, setLoading] = useState(true);
   const [removingItemId, setRemovingItemId] = useState(null);
   const [processing, setProcessing] = useState(false);
+  const [deliveryType, setDeliveryType] = useState("normal"); // normal or fast
+  const deliveryCharges = { normal: 120, fast: 240 };
 
   useEffect(() => {
     if (!user?.email) return;
@@ -89,6 +95,8 @@ export default function MyCart() {
       const res = await axios.post("http://localhost:8157/initiate-payment", {
         email: user.email,
         items: cartItems,
+        deliveryType,
+        deliveryCharge: deliveryCharges[deliveryType],
       });
       if (res.data?.GatewayPageURL) {
         window.location.replace(res.data.GatewayPageURL);
@@ -103,7 +111,8 @@ export default function MyCart() {
     }
   };
 
-  const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const itemsTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const total = itemsTotal + deliveryCharges[deliveryType];
 
   if (loading) return <Typography>Loading cart...</Typography>;
 
@@ -158,13 +167,56 @@ export default function MyCart() {
                 </IconButton>
               </Box>
             ))}
+
             <Divider />
+
+            {/* Delivery Options */}
+            <FormControl>
+              <Typography fontWeight="bold" mb={1}>
+                Select Delivery Option:
+              </Typography>
+              <RadioGroup
+                row
+                value={deliveryType}
+                onChange={(e) => setDeliveryType(e.target.value)}
+              >
+                <FormControlLabel
+                  value="normal"
+                  control={<Radio />}
+                  label={`Normal Delivery (৳${deliveryCharges.normal})`}
+                />
+                <FormControlLabel
+                  value="fast"
+                  control={<Radio />}
+                  label={`Fast Delivery (৳${deliveryCharges.fast})`}
+                />
+              </RadioGroup>
+            </FormControl>
+
+            <Divider />
+
+            {/* Total */}
             <Box display="flex" justifyContent="space-between">
-              <Typography fontWeight="bold">Total:</Typography>
+              <Typography fontWeight="bold">Items Total:</Typography>
               <Typography fontWeight="bold" color="#1976d2">
+                ৳{itemsTotal.toFixed(2)}
+              </Typography>
+            </Box>
+            <Box display="flex" justifyContent="space-between">
+              <Typography fontWeight="bold">Delivery Charge:</Typography>
+              <Typography fontWeight="bold" color="#1976d2">
+                ৳{deliveryCharges[deliveryType]}
+              </Typography>
+            </Box>
+            <Box display="flex" justifyContent="space-between">
+              <Typography fontWeight="bold" fontSize={18}>
+                Total Bill:
+              </Typography>
+              <Typography fontWeight="bold" color="#1976d2" fontSize={18}>
                 ৳{total.toFixed(2)}
               </Typography>
             </Box>
+
             <Button
               variant="contained"
               color="primary"
